@@ -1,7 +1,6 @@
 package meng.xing.controller;
 
 import meng.xing.model.User;
-import meng.xing.service.SimpleUserService;
 import meng.xing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,8 +8,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 //@RestController 表示是rest风格，返回的对象直接转化成json
 @RestController

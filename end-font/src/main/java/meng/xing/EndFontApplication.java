@@ -9,6 +9,6 @@ import org.springframework.cache.annotation.EnableCaching;
 public class EndFontApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EndFontApplication.class, args);
+        SpringApplication.run(EndFontApplication.class, args);
 	}
 }

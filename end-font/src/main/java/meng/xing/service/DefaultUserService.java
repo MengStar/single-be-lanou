@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SimpleUserService implements UserService {
+public class DefaultUserService implements UserService {
     @Autowired
     UserRepository userRepository;
     @Override
@@ -32,6 +32,7 @@ public class SimpleUserService implements UserService {
         return user;
     }
     @Override
+    // TODO: 2017/7/12 分页缓存优化
     public Page<User> findAllUsers(Pageable pageable){
         return  userRepository.findAll(pageable);
     }
