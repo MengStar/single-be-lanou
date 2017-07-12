@@ -8,41 +8,43 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
-/**
- * Created by Administrator on 2017/7/11.
- */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserServiceTest {
-
+public class SimpleUserServiceTest {
 
     @Autowired
     private UserService userService;
-    User dave;
+    List<User> users;
 
+    //构造多个user对象
     @Before
     public  void initUser(){
-        User user = new User();
-        user.setUsername("dave");
-        user.setPassword("123");
-        user.setRole("ADMIN");
-        user.setCreateDate(new Date());
-        user.setLastPasswordResetDate(new Date());
-        dave = user;
+        users = new ArrayList<>();
+        for (int i=0;i<20;i++) {
+            User user = new User();
+            user.setUsername("dave"+i);
+            user.setPassword("123");
+            user.setRole("ADMIN");
+            user.setCreateDate(new Date());
+            user.setLastPasswordResetDate(new Date());
+            users.add(user);
+        }
     }
-
     @Test
-    //执行第一次时，测试不通过
     public void register() throws Exception {
-        assertThat(userService.register(dave)).isFalse();
+        users.forEach(user -> userService.register(user));
+        assertThat(userService.register(users.get(0))).isFalse();
     }
     @Test
     public void findUserByUsername() throws Exception {
-        assertThat(userService.findUserByUsername("dave")).isNotNull();
+        assertThat(userService.findUserByUsername("dave0")).isNotNull();
         assertThat(userService.findUserByUsername("")).isNull();
     }
 

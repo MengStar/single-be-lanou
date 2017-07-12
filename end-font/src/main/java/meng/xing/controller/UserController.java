@@ -1,23 +1,38 @@
 package meng.xing.controller;
 
 import meng.xing.model.User;
+import meng.xing.service.SimpleUserService;
 import meng.xing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 //@RestController 表示是rest风格，返回的对象直接转化成json
 @RestController
 @RequestMapping("/users")
-public class UserController{
+public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping //默认的路径
-    public User index(@RequestParam(value = "username" ,defaultValue="admin")String username){
+    @GetMapping("/{username}")
+    public User getUserByPathVariableUsername(@PathVariable("username") String username) {
         return userService.findUserByUsername(username);
     }
-    
+    //具有分页的api
+    @GetMapping
+    public Page<User> getAllUsers(@RequestParam(value = "page", defaultValue = "0") int page,
+                                  @RequestParam(value = "size", defaultValue = "10") int size,
+                                  @RequestParam(value = "sort", defaultValue = "id") String sort,
+                                  @RequestParam(value = "order", defaultValue = "desc") String order) {
+
+        Sort _sort = new Sort(Sort.Direction.fromString(order), sort);
+        Pageable pageable = new PageRequest(page, size, _sort);
+        return userService.findAllUsers(pageable);
+    }
+
 }
