@@ -7,11 +7,11 @@ import java.util.Date;
 //jpa的标签
 @Entity
 //生成的表名
-@Table(name = "my_user")
+@Table(name = "user")
 public class User {
     //主键和自增
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     //jsr303的验证
     @NotNull
@@ -19,12 +19,36 @@ public class User {
     @NotNull
     private String password;
     @NotNull
-    private int role;
+    private Date createDate;
     @NotNull
-    private Date createdate;
-    public User() {}
+    private String role;
+
+    public User() {
+    }
 
 
+
+
+
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    private Date lastPasswordResetDate;
+
+
+    public Date getLastPasswordResetDate() {
+        return lastPasswordResetDate;
+    }
+
+    public void setLastPasswordResetDate(Date lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
+    }
 
     public String getUsername() {
         return username;
@@ -42,19 +66,11 @@ public class User {
         this.password = password;
     }
 
-    public int getRole() {
-        return role;
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setRole(int role) {
-        this.role = role;
-    }
-
-    public Date getCreatedate() {
-        return createdate;
-    }
-
-    public void setCreatedate(Date createdate) {
-        this.createdate = createdate;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 }
