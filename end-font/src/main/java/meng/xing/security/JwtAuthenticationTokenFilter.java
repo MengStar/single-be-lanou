@@ -25,11 +25,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    //@Value("${jwt.header}")
-    private String tokenHeader = "Authorization";
+    @Value("${jwt.header}")
+    private String tokenHeader;
 
-    //@Value("${jwt.tokenHead}")
-    private String tokenHead="bms ";
+    @Value("${jwt.tokenHead}")
+    private String tokenHead;
 
     @Override
     protected void doFilterInternal(
@@ -41,7 +41,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             final String authToken = authHeader.substring(tokenHead.length()); // The part after "Bearer "
             String username = jwtTokenUtil.getUsernameFromToken(authToken);
 
-            logger.info("checking authentication " + username);
+            logger.info("checking authentication:" + username +"----token:"+authToken);
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 

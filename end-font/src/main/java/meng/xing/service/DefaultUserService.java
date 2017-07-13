@@ -23,7 +23,7 @@ public class DefaultUserService implements UserService {
     }
     //根据用户名返回User对象，只返回一个
     @Override
-    @Cacheable(value = "UserService", key = "#username+'findUserByUsername'") //缓存
+    @Cacheable(value = "UserService", key = "#username") //缓存
     public User findUserByUsername(String username) {
         User user =userRepository.findByUsername(username);
         if (user == null) {
