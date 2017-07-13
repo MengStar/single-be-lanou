@@ -7,6 +7,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Date;
 
+/**
+ * UserDetails的实现类，可以定义一系列验证
+ */
 public class JwtUserDetails implements UserDetails {
     private final String id;
     private final String username;
@@ -26,6 +29,7 @@ public class JwtUserDetails implements UserDetails {
         this.authorities = authorities;
         this.lastPasswordResetDate = lastPasswordResetDate;
     }
+
     //返回分配给用户的角色列表
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -48,30 +52,35 @@ public class JwtUserDetails implements UserDetails {
     public String getUsername() {
         return username;
     }
+
     // 账户是否未过期
     @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
+
     // 账户是否未锁定
     @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
+
     // 密码是否未过期
     @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
+
     // 账户是否激活
     @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;
     }
+
     // 这个是自定义的，返回上次密码重置日期
     @JsonIgnore
     public Date getLastPasswordResetDate() {

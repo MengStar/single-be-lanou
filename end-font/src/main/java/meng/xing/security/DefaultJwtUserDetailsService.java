@@ -1,6 +1,6 @@
 package meng.xing.security;
 
-import meng.xing.model.User;
+import meng.xing.domain.User;
 import meng.xing.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by Administrator on 2017/7/13.
+ * UserDetailsService的实现，根据用户名返回UserDetails
  */
 @Service
 public class DefaultJwtUserDetailsService implements UserDetailsService {
@@ -20,8 +20,7 @@ public class DefaultJwtUserDetailsService implements UserDetailsService {
     @Override
     @Cacheable(value = "UserDetails", key = "#username") //缓存
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername("dave0");
-
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
         } else {
