@@ -12,8 +12,7 @@ public class HomeController {
     @GetMapping("/")
     public String index() {
         Subject currentUser = SecurityUtils.getSubject();
-
-        System.out.println(currentUser);
+        System.out.println(currentUser.isAuthenticated());
         return "hellow";
     }
 }

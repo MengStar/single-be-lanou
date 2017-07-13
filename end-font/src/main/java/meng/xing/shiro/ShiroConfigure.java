@@ -28,6 +28,7 @@ public class ShiroConfigure {
         //开始配置路径与拦截器的对应
         Map<String,String> filterChainDefinitionMap = new LinkedMap();
         filterChainDefinitionMap.put("/users/*","authc");
+        filterChainDefinitionMap.put("/**","anon");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
