@@ -18,6 +18,12 @@ public class DefaultUserService implements UserService {
     UserRepository userRepository;
 
     @Override
+    public boolean deleteByUsername(String username) {
+        return userRepository.deleteByUsername(username) != 0;
+
+    }
+
+    @Override
     @Cacheable(value = "UserService", key = "#username") //可以缓存
     public User findUserByUsername(String username) {
         User user = userRepository.findByUsername(username);
@@ -26,6 +32,7 @@ public class DefaultUserService implements UserService {
         }
         return user;
     }
+
     @Override
     public Page<User> findAllUsers(Pageable pageable) {
         return userRepository.findAll(pageable);

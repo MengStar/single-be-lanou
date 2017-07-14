@@ -1,7 +1,5 @@
 package meng.xing.api.data;
 
-
-import meng.xing.DatabaseLoader;
 import meng.xing.domain.Book;
 import org.junit.After;
 import org.junit.Before;
@@ -14,11 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
 
 /**
  * Created by Administrator on 2017/7/14.
@@ -45,9 +39,7 @@ public class BookRestResponitoryTest {
     @Test
     public void save() {
         Date date = new Date();
-        long[] types = {1L, 2L, 3L};
         Book book = new Book("test", "test", "test", date, "test");
-        book.setBokTypeIds(types);
         book.setCallNumber("ABC123");
         book.setStoreTime(date);
        assert  bookRestResponitory.save(book)!=null;

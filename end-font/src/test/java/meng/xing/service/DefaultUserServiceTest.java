@@ -19,7 +19,7 @@ public class DefaultUserServiceTest {
     UserService userService;
     @Test
     public void findUserByUsername() throws Exception {
-        assertThat(userService.findUserByUsername("dave0")).isNotNull();
+        assertThat(userService.findUserByUsername("admin")).isNotNull();
         assertThat(userService.findUserByUsername("")).isNull();
     }
     @Test
