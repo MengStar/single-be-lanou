@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 /**
+ * 用户登录，注册 service
+ * 全部方法不可缓存
  * Created by Administrator on 2017/7/13.
  */
 @Service
@@ -26,7 +28,7 @@ public class DefaultAuthService implements AuthService {
     private JwtTokenUtil jwtTokenUtil;
     private UserRepository userRepository;
 
-    @Value("${jwt.tokenHead}")
+    @Value("${jwt.tokenHead}") //从application.properties 读取配置
     private String tokenHead;
 
     @Autowired
@@ -40,7 +42,6 @@ public class DefaultAuthService implements AuthService {
         this.jwtTokenUtil = jwtTokenUtil;
         this.userRepository = userRepository;
     }
-
     @Override
     public User register(User userToAdd) {
         final String username = userToAdd.getUsername();
@@ -49,7 +50,6 @@ public class DefaultAuthService implements AuthService {
         }
         return userRepository.save(userToAdd);
     }
-
     @Override
     public String login(String username, String password) {
         //相当于进行了一次表单提交，会验证密码和用户名

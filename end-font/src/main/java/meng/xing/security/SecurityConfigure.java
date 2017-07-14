@@ -17,8 +17,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  *Security的全部配置
  */
 @EnableWebSecurity
-@Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@Configuration
 public class SecurityConfigure extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
@@ -54,8 +54,6 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
 
     }
 
-
-
     //配置AuthenticationManagerBuilder
     @Autowired
     public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
@@ -65,8 +63,6 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
                 // 使用BCrypt进行密码的hash
                 .passwordEncoder(PasswordEncoderUtil.getPasswordEncoder());
     }
-
-    //
     @Bean
     public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
         return new JwtAuthenticationTokenFilter();

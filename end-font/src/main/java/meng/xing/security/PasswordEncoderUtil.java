@@ -4,7 +4,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 /**
- *密码加密工具类
+ * 密码加密工具类
+ * 配置加密算法
  */
 @Component
 public class PasswordEncoderUtil {

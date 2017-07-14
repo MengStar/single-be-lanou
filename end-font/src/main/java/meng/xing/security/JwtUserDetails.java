@@ -9,6 +9,7 @@ import java.util.Date;
 
 /**
  * UserDetails的实现类，可以定义一系列验证
+ * 主要提供验证信息给Security
  */
 public class JwtUserDetails implements UserDetails {
     private final String id;

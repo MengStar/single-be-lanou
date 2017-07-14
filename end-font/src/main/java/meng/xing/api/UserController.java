@@ -1,7 +1,7 @@
-package meng.xing.api.admin;
+package meng.xing.api;
 
 import meng.xing.domain.User;
-import meng.xing.service.admin.UserService;
+import meng.xing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,24 +10,38 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-//@RestController 表示是rest风格，返回的对象直接转化成json
+/**
+ * user管理api
+ */
 @RestController
 @RequestMapping("/users")
 public class UserController {
     @Autowired
     private UserService userService;
 
-    //管理员权限或者当前user所有者
+    /**
+     * username获取user信息
+     * 鉴权：当前用户 or ADMIN
+     * @param username
+     * @return 成功：json 200; 失败：json 403
+     */
     @GetMapping("/{username}")
     @PreAuthorize("#username == authentication.name or hasRole('ADMIN')")
     public User getUserByPathVariableUsername(@PathVariable("username") String username) {
         return userService.findUserByUsername(username);
     }
 
-    //具有分页的api
+    /**
+     *  分页user查询
+     *  鉴权：ADMIN
+     * @param page 当前页面
+     * @param size 每页大小
+     * @param sort 排序字段
+     * @param order 排列顺序 ASC or DESC
+     * @return 成功：json 200; 失败：json 403
+     */
     @GetMapping
-    //需要ADMIN权限,有个天坑：hasAuthority('ROLE_ADMIN') means the the same as hasRole('ADMIN')
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")  //需要ADMIN权限,有个天坑：hasAuthority('ROLE_ADMIN') means the the same as hasRole('ADMIN')
     public Page<User> getAllUsers(@RequestParam(value = "page", defaultValue = "0") int page,
                                   @RequestParam(value = "size", defaultValue = "10") int size,
                                   @RequestParam(value = "sort", defaultValue = "id") String sort,

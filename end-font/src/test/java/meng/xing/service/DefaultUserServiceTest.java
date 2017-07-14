@@ -1,5 +1,6 @@
-package meng.xing.service.admin;
+package meng.xing.service;
 
+import meng.xing.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

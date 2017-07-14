@@ -1,4 +1,4 @@
-package meng.xing.service.admin;
+package meng.xing.service;
 
 import meng.xing.domain.User;
 import org.springframework.data.domain.Page;

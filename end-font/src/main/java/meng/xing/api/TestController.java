@@ -1,4 +1,4 @@
-package meng.xing.api.admin;
+package meng.xing.api;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -6,9 +6,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 测试API
+ */
 @RestController
 @RequestMapping("/")
 public class TestController {
+    /**
+     * 默认界面，不需要权限，SecurityConfigure类里面配置
+     * @return
+     */
     @GetMapping("/")
     public String index() {
         return "hello word!";
@@ -16,7 +23,7 @@ public class TestController {
 
     /**
      * 用来测试security
-     *  请先获取token
+     * 请先获取从auth下的api获取token
      * 建议用postman操作
      * @return
      */

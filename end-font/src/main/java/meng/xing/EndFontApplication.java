@@ -5,10 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 
 @SpringBootApplication
-//暂时关闭缓存
-//@EnableCaching
+@EnableCaching //开启缓存
 public class EndFontApplication {
-
 	public static void main(String[] args) {
         SpringApplication.run(EndFontApplication.class, args);
 	}

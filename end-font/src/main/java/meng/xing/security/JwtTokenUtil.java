@@ -14,9 +14,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
- * Created by Administrator on 2017/7/13.
+ * Java Web Token（JWT）的处理类
+ * token 信息：
+ *              1.用户名
+ *              2.创建时间
+ *              3.过期时间
+ * token 非法：
+ *              1.无法解析
+ *              2.过期时间 小于 当前系统时间
+ *              3.创建时间 小于 密码修改时间
  */
 @Component
 public class JwtTokenUtil {
@@ -28,7 +35,6 @@ public class JwtTokenUtil {
     private Long expiration;
     @Value("${jwt.secret}")
     private String secret;
-
 
     public Date getCreatedDateFromToken(String token) {
         token = subTokenHead(token);
