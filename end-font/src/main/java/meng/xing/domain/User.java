@@ -29,7 +29,6 @@ public class User {
     private String[] roles;
     protected User() {
     }
-
     /**
      * 新建User
      * @param username 用户名

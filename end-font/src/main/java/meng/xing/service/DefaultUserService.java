@@ -20,15 +20,14 @@ public class DefaultUserService implements UserService {
     @Override
     @Cacheable(value = "UserService", key = "#username") //可以缓存
     public User findUserByUsername(String username) {
-        User user =userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             return null;
         }
         return user;
     }
     @Override
-
-    public Page<User> findAllUsers(Pageable pageable){
-        return  userRepository.findAll(pageable);
+    public Page<User> findAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 }

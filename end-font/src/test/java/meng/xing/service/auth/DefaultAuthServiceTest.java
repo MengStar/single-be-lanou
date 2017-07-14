@@ -2,19 +2,13 @@ package meng.xing.service.auth;
 
 import meng.xing.domain.User;
 import meng.xing.security.JwtTokenUtil;
-import meng.xing.security.JwtUserDetails;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import static org.junit.Assert.*;
 
 /**
  * Created by Administrator on 2017/7/13.
@@ -24,26 +18,20 @@ import static org.junit.Assert.*;
 public class DefaultAuthServiceTest {
 
 
-    @Autowired
-    AuthService authService;
-    @Autowired
-    JwtTokenUtil jwtTokenUtil;
-    List<User> users;
 
-    //构造多个user对象
-    @Before
-    public void initUser() {
-        users = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            User user = new User("dave" + i, "dave" + i, "ROLE_ADMIN", "ROLE_USER");
-            users.add(user);
-        }
-    }
+    @Autowired
+    private AuthService authService;
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+
 
     @Test
     public void register() throws Exception {
-        users.forEach(user -> authService.register(user));
-        assert authService.register(users.get(0)) == null;
+        int i=888;
+        User user = new User("dave" + i, "dave" + i, "ROLE_ADMIN", "ROLE_USER");
+        assert authService.register(user) != null;//第一次成功
+        assert authService.register(user) == null;//第二次失败
     }
 
     @Test

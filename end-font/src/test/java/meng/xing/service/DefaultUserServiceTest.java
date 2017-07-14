@@ -1,6 +1,5 @@
 package meng.xing.service;
 
-import meng.xing.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 public class DefaultUserServiceTest {
 
     @Autowired
-    private UserService userService;
+    UserService userService;
     @Test
     public void findUserByUsername() throws Exception {
         assertThat(userService.findUserByUsername("dave0")).isNotNull();
