@@ -22,10 +22,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="back-end" />
         <module name="end-font" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="back-end" target="1.8" />
       <module name="end-font" target="1.8" />
     </bytecodeTargetLevel>
   </component>
