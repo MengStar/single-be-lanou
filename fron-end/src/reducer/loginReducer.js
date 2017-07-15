@@ -10,7 +10,8 @@
  *   });
  */
 
-import {CHANGE_FORM, SET_IS_LOGIN, SENDING_REQUEST, SET_ERROR_MESSAGE} from '../util/constant/Constants';
+
+import * as actionType from "../action/loginAction";
 
 //初始化相关状态
 const initialState = {
@@ -25,22 +26,22 @@ const initialState = {
 // 根据action改变状态
 export default function loginReducer(state = initialState, action) {
     switch (action.type) {
-        case CHANGE_FORM:
-            return {...state, formState: action.newState};
+        case actionType.LOGIN_CHANGE_FORM:
+            return {...state, formState: action.value};
             break;
-        case SET_IS_LOGIN:
+        case actionType.LOGIN_SET_LOGIN_STATE:
             return {
-                ...state, loggedIn: action.newState
+                ...state, loggedIn: action.value
             };
             break;
-        case SENDING_REQUEST:
+        case actionType.LOGIN_SENDING_REQUEST:
             return {
-                ...state, currentlySending: action.sending
+                ...state, currentlySending: action.value
             };
             break;
-        case SET_ERROR_MESSAGE:
+        case actionType.LOGIN_SET_ERROR_MESSAGE:
             return {
-                ...state, errorMessage: action.message
+                ...state, errorMessage: action.value
             };
         default:
             return state;
