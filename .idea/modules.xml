@@ -3,7 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/BMS.iml" filepath="$PROJECT_DIR$/.idea/BMS.iml" />
-      <module fileurl="file://$PROJECT_DIR$/end-font/end-font.iml" filepath="$PROJECT_DIR$/end-font/end-font.iml" />
+      <module fileurl="file://$PROJECT_DIR$/back-end/back-end.iml" filepath="$PROJECT_DIR$/back-end/back-end.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fron-end/fron-end.iml" filepath="$PROJECT_DIR$/fron-end/fron-end.iml" />
     </modules>
   </component>
 </project>
