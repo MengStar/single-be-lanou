@@ -1,4 +1,4 @@
-package meng.xing.api;
+package meng.xing.api.normol;
 
 import meng.xing.entity.User;
 import meng.xing.service.UserService;
