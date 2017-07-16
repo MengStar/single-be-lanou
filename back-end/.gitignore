@@ -22,3 +22,9 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
