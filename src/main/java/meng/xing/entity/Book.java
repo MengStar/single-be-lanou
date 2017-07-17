@@ -1,22 +1,18 @@
 package meng.xing.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "book")
-@Data
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    //@NotNull
-    // TODO: 2017/7/14
-    private long[] bokTypeIds; //类别
     @NotNull
     @Column(unique = true)
     private String callNumber;//索书号
@@ -35,6 +31,10 @@ public class Book {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date storeTime;//入库时间
 
+    @ManyToMany
+    @JoinTable(name = "book_and__type", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
+    private Set<BookType> bookTypes;
+
     private Book() {
     }
 
@@ -46,4 +46,75 @@ public class Book {
         this.bookAbstract = bookAbstract;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCallNumber() {
+        return callNumber;
+    }
+
+    public void setCallNumber(String callNumber) {
+        this.callNumber = callNumber;
+    }
+
+    public String getBookName() {
+        return bookName;
+    }
+
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
+
+    public String getBookPress() {
+        return bookPress;
+    }
+
+    public void setBookPress(String bookPress) {
+        this.bookPress = bookPress;
+    }
+
+    public Date getPubDate() {
+        return pubDate;
+    }
+
+    public void setPubDate(Date pubDate) {
+        this.pubDate = pubDate;
+    }
+
+    public String getBookAbstract() {
+        return bookAbstract;
+    }
+
+    public void setBookAbstract(String bookAbstract) {
+        this.bookAbstract = bookAbstract;
+    }
+
+    public Date getStoreTime() {
+        return storeTime;
+    }
+
+    public void setStoreTime(Date storeTime) {
+        this.storeTime = storeTime;
+    }
+
+    public Set<BookType> getBookTypes() {
+        return bookTypes;
+    }
+
+    public void setBookTypes(Set<BookType> bookTypes) {
+        this.bookTypes = bookTypes;
+    }
 }

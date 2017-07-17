@@ -8,4 +8,5 @@ public interface UserService {
      boolean deleteByUsername(String username);
      User findUserByUsername(String username);
      Page<User> findAllUsers(Pageable pageable);
+     boolean setUserRoles(String username , String ... roles);
 }

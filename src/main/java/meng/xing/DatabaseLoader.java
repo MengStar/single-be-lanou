@@ -3,7 +3,10 @@ package meng.xing;
 import meng.xing.api.data.BookRestResponitory;
 import meng.xing.entity.Book;
 import meng.xing.entity.User;
+import meng.xing.entity.UserRole;
+import meng.xing.repository.UserRoleReponsitory;
 import meng.xing.security.UserRoleEnum;
+import meng.xing.service.UserService;
 import meng.xing.service.auth.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -26,25 +29,33 @@ import java.util.UUID;
 @Component
 public class DatabaseLoader implements CommandLineRunner {
     private final AuthService authService;
+    private final UserService userService;
     private final BookRestResponitory bookRestResponitory;
     private final AuthenticationManager authenticationManager;
+    private final UserRoleReponsitory userRoleReponsitory;
     private final String username = "admin";
     private final String password = "admin";
 
     @Autowired
-    public DatabaseLoader(AuthService authService, BookRestResponitory bookRestResponitory, AuthenticationManager authenticationManager) {
+    public DatabaseLoader(UserRoleReponsitory userRoleReponsitory,AuthService authService, BookRestResponitory bookRestResponitory, AuthenticationManager authenticationManager,UserService userService) {
+       this.userRoleReponsitory=userRoleReponsitory;
         this.authService = authService;
         this.bookRestResponitory = bookRestResponitory;
         this.authenticationManager = authenticationManager;
+        this.userService =userService;
     }
 
     @Override
     public void run(String... strings) throws Exception {
-        initUserTable();
+        initeRole();
         //新建管理员账户，并授权
         // 方便其操作数据库
-        User admin = new User(username, password, UserRoleEnum.ROLE_USER.toString(), UserRoleEnum.ROLE_ADMIN.toString());
+        User admin = new User(username, password);
         authService.register(admin);
+        userService.setUserRoles(username,UserRoleEnum.ROLE_ADMIN.toString(),
+                UserRoleEnum.ROLE_STUDENT.toString(),
+                UserRoleEnum.ROLE_TEACHER.toString());
+
         UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(username, password);
         final Authentication authentication = authenticationManager.authenticate(upToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -62,10 +73,10 @@ public class DatabaseLoader implements CommandLineRunner {
 
         List<User> users = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            User user = new User("meng" + i, "meng" + i, UserRoleEnum.ROLE_USER.toString());
+            User user = new User("meng" + i, "meng" );
             users.add(user);
         }
-        users.forEach(user -> authService.register(user));
+     //   users.forEach(user -> authService.register(user));
     }
 
     /**
@@ -84,5 +95,12 @@ public class DatabaseLoader implements CommandLineRunner {
             books.add(book);
         }
         books.forEach(book -> bookRestResponitory.save(book));
+    }
+    private void initeRole(){
+        if ( userRoleReponsitory.count()!=0)
+            return;
+        this.userRoleReponsitory.save(new UserRole("ROLE_ADMIN"));
+        this.userRoleReponsitory.save(new UserRole("ROLE_STUDENT"));
+        this.userRoleReponsitory.save(new UserRole("ROLE_TEACHER"));
     }
 }
