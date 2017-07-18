@@ -25,7 +25,7 @@ public class BookRestResponitoryTest {
 
     final Logger logger = LoggerFactory.getLogger(BookRestResponitoryTest.class);
     @Autowired
-    BookRestResponitory bookRestResponitory;
+    BookRest bookRest;
     @Autowired
     AuthenticationManager authenticationManager;
 
@@ -45,11 +45,11 @@ public class BookRestResponitoryTest {
         Book book = new Book("test", "test", "test", date, "test");
         book.setCallNumber("ABC123");
         book.setStoreTime(date);
-       assert  bookRestResponitory.save(book)!=null;
+       assert  bookRest.save(book)!=null;
     }
     @Test
     public void deleteBycallName(){
-        logger.info("deleteBycallName()的返回值是："+bookRestResponitory.deleteByCallNumber("ABqC123"));
+        logger.info("deleteBycallName()的返回值是："+ bookRest.deleteByCallNumber("ABqC123"));
     }
 
     @After

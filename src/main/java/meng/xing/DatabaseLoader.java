@@ -1,7 +1,9 @@
 package meng.xing;
 
-import meng.xing.api.data.BookRestResponitory;
+import meng.xing.api.data.BookRest;
+import meng.xing.api.data.BookTypeRest;
 import meng.xing.entity.Book;
+import meng.xing.entity.BookType;
 import meng.xing.entity.User;
 import meng.xing.entity.UserRole;
 import meng.xing.repository.UserRoleReponsitory;
@@ -16,10 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * 首先运行，用作数据库初始化
@@ -30,19 +29,21 @@ import java.util.UUID;
 public class DatabaseLoader implements CommandLineRunner {
     private final AuthService authService;
     private final UserService userService;
-    private final BookRestResponitory bookRestResponitory;
+    private final BookRest bookRest;
     private final AuthenticationManager authenticationManager;
     private final UserRoleReponsitory userRoleReponsitory;
+    private final BookTypeRest bookTypeRest;
     private final String username = "admin";
     private final String password = "admin";
 
     @Autowired
-    public DatabaseLoader(UserRoleReponsitory userRoleReponsitory,AuthService authService, BookRestResponitory bookRestResponitory, AuthenticationManager authenticationManager,UserService userService) {
-       this.userRoleReponsitory=userRoleReponsitory;
+    public DatabaseLoader(BookTypeRest bookTypeRest, UserRoleReponsitory userRoleReponsitory, AuthService authService, BookRest bookRest, AuthenticationManager authenticationManager, UserService userService) {
+        this.userRoleReponsitory = userRoleReponsitory;
         this.authService = authService;
-        this.bookRestResponitory = bookRestResponitory;
+        this.bookRest = bookRest;
         this.authenticationManager = authenticationManager;
-        this.userService =userService;
+        this.userService = userService;
+        this.bookTypeRest = bookTypeRest;
     }
 
     @Override
@@ -51,7 +52,7 @@ public class DatabaseLoader implements CommandLineRunner {
         initeRole();//初始化权限表
         User admin = new User(username, password);  //新建管理员账户，并授权 方便其操作数据库
         authService.register(admin);
-        userService.setUserRoles(username,UserRoleEnum.ROLE_ADMIN.toString(),
+        userService.setUserRoles(username, UserRoleEnum.ROLE_ADMIN.toString(),
                 UserRoleEnum.ROLE_STUDENT.toString(),
                 UserRoleEnum.ROLE_TEACHER.toString());
 
@@ -74,7 +75,7 @@ public class DatabaseLoader implements CommandLineRunner {
 
         List<User> users = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            User user = new User("meng" + i, "meng" );
+            User user = new User("meng" + i, "meng");
             users.add(user);
         }
         users.forEach(user -> authService.register(user));
@@ -85,20 +86,27 @@ public class DatabaseLoader implements CommandLineRunner {
      * 需要权限
      */
     private void initBookTable() {
-//        bookRestResponitory.deleteAll(); //清空
+        if (bookTypeRest.count() == 0) {
+            BookType bookType = new BookType("小说");
+            bookTypeRest.save(bookType);
+        }
         Date date = new Date();
         List<Book> books = new ArrayList<>();
-
+        Set<BookType> types = new HashSet<>();
+        types.add(bookTypeRest.findOne(bookTypeRest.findAll().iterator().next().getId()));
         for (int i = 0; i < 20; i++) {
             Book book = new Book("name" + i, "author" + i, "press" + i, date, "abstract" + i);
-            book.setCallNumber("mengmeng"+ UUID.randomUUID().toString());
+            book.setBookTypes(types);
+            book.setCallNumber("mengmeng" + UUID.randomUUID().toString());
             book.setStoreTime(date);
             books.add(book);
+
         }
-        books.forEach(book -> bookRestResponitory.save(book));
+        books.forEach(book -> bookRest.save(book));
     }
-    private void initeRole(){
-        if ( userRoleReponsitory.count()!=0)
+
+    private void initeRole() {
+        if (userRoleReponsitory.count() != 0)
             return;
         this.userRoleReponsitory.save(new UserRole("ROLE_ADMIN"));
         this.userRoleReponsitory.save(new UserRole("ROLE_STUDENT"));

@@ -14,10 +14,16 @@ public class BookType {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotNull
+    @Column(unique = true)
     private String type; //类型名
     private String description;//类型描述
     @ManyToMany(mappedBy = "bookTypes")
     private Set<Book> books;
+
+    protected BookType(){};
+    public BookType(String type){
+        this.type = type;
+    }
 
 
     public Long getId() {

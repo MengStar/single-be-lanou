@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @RepositoryRestResource(path = "books")
-public interface BookRestResponitory extends PagingAndSortingRepository<Book, Long> {
+public interface BookRest extends PagingAndSortingRepository<Book, Long> {
     @Override
     @PreAuthorize("hasRole('ADMIN')")
     void delete(@Param("book") Book book);
