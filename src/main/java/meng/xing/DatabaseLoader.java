@@ -47,10 +47,9 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        initeRole();
-        //新建管理员账户，并授权
-        // 方便其操作数据库
-        User admin = new User(username, password);
+
+        initeRole();//初始化权限表
+        User admin = new User(username, password);  //新建管理员账户，并授权 方便其操作数据库
         authService.register(admin);
         userService.setUserRoles(username,UserRoleEnum.ROLE_ADMIN.toString(),
                 UserRoleEnum.ROLE_STUDENT.toString(),
@@ -59,8 +58,10 @@ public class DatabaseLoader implements CommandLineRunner {
         UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(username, password);
         final Authentication authentication = authenticationManager.authenticate(upToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+
         initBookTable();
+        initUserTable();
+
         //删除管理员账户，取消授权
         SecurityContextHolder.getContext().setAuthentication(null);
     }
@@ -76,7 +77,7 @@ public class DatabaseLoader implements CommandLineRunner {
             User user = new User("meng" + i, "meng" );
             users.add(user);
         }
-     //   users.forEach(user -> authService.register(user));
+        users.forEach(user -> authService.register(user));
     }
 
     /**

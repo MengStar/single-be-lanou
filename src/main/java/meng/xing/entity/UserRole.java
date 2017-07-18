@@ -11,14 +11,17 @@ import java.util.Set;
 @Entity //jpa的标签 根据字段，自动创表
 @Table(name = "user_role") //生成的表名
 public class UserRole {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;//jpa 主键和自增
     @NotNull
     @Column(unique = true)
     private String role;
-    @ManyToMany(mappedBy = "roles",fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST})
-    private Set<User> Users;
+
+    @ManyToMany(mappedBy = "roles",fetch = FetchType.LAZY)
+    private Set<User> users;
+
     private UserRole() {
     }
     public UserRole(String role) {
@@ -42,10 +45,12 @@ public class UserRole {
     }
 
     public Set<User> getUsers() {
-        return Users;
+        return users;
     }
 
     public void setUsers(Set<User> users) {
-        Users = users;
+        this.users = users;
     }
+
+
 }

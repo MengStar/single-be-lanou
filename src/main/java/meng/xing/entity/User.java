@@ -31,9 +31,17 @@ public class User {
     private Date lastPasswordResetDate;
 
 
-    @ManyToMany(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_and_role", inverseJoinColumns = @JoinColumn(name = "role_id"), joinColumns = @JoinColumn(name = "user_id"))
-    private Set<UserRole> roles ;
+    private Set<UserRole> roles;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_and_exam", joinColumns = @JoinColumn(name = "use_id"), inverseJoinColumns = @JoinColumn(name = "exam_id"))
+    private Set<Exam> exams;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_and_paper", joinColumns = @JoinColumn(name = "use_id"), inverseJoinColumns = @JoinColumn(name = "paper_id"))
+    private Set<Paper> papers;
 
     protected User() {
     }
@@ -98,5 +106,21 @@ public class User {
 
     public void setRoles(Set<UserRole> roles) {
         this.roles = roles;
+    }
+
+    public Set<Exam> getExams() {
+        return exams;
+    }
+
+    public void setExams(Set<Exam> exams) {
+        this.exams = exams;
+    }
+
+    public Set<Paper> getPapers() {
+        return papers;
+    }
+
+    public void setPapers(Set<Paper> papers) {
+        this.papers = papers;
     }
 }
