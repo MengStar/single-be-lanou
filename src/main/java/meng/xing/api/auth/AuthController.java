@@ -3,10 +3,9 @@ package meng.xing.api.auth;
 import meng.xing.entity.User;
 import meng.xing.service.auth.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * 开放api，不用权限，用于用户注册，登录，获取token
@@ -20,13 +19,13 @@ public class AuthController {
 
     /**
      * 登录并返回token
-     * @param username
-     * @param password
      * @return  成功：token 200;失败：null 200
      */
     @PostMapping("/login")
-    public String  login(@RequestParam("username")String username,@RequestParam("password")String password ){
-        return authService.login(username,password);
+    public String  login(@RequestBody(required=true) Map<String,Object> map   ){
+        String username = map.get("username").toString();
+        String password = map.get("password").toString();
+        return "{\"token\":\""+authService.login(username,password)+"\"}";
     }
 
     /**

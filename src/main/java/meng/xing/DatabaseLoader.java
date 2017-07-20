@@ -108,6 +108,7 @@ public class DatabaseLoader implements CommandLineRunner {
     private void initeRole() {
         if (userRoleReponsitory.count() != 0)
             return;
+        this.userRoleReponsitory.save(new UserRole("ROLE_DEVELOPER"));
         this.userRoleReponsitory.save(new UserRole("ROLE_ADMIN"));
         this.userRoleReponsitory.save(new UserRole("ROLE_STUDENT"));
         this.userRoleReponsitory.save(new UserRole("ROLE_TEACHER"));
