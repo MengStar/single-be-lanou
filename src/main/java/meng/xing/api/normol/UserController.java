@@ -51,9 +51,8 @@ public class UserController {
     /**
      * 分页user查询
      * 鉴权：ADMIN
-     *
      * @param page  当前页面
-     * @param size  每页大小
+     * @param pageSize  每页大小
      * @param sort  排序字段
      * @param order 排列顺序 ASC or DESC
      * @return 成功：json 200; 失败：json 403
@@ -61,13 +60,14 @@ public class UserController {
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     //需要ADMIN权限,有个天坑：hasAuthority('ROLE_ADMIN') means the the same as hasRole('ADMIN')
-    public Page<User> getAllUsers(@RequestParam(value = "page", defaultValue = "0") int page,
-                                  @RequestParam(value = "size", defaultValue = "10") int size,
+    public Page<User> getAllUsers(@RequestParam(value = "page",required = false,defaultValue = "1") Integer page,
+                                  @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize,
                                   @RequestParam(value = "sort", defaultValue = "id") String sort,
-                                  @RequestParam(value = "order", defaultValue = "desc") String order) {
+                                  @RequestParam(value = "order", defaultValue = "asc") String order) {
 
         Sort _sort = new Sort(Sort.Direction.fromString(order), sort);
-        Pageable pageable = new PageRequest(page, size, _sort);
+        //传来的页码是从1开始，而服务器从1开始算
+        Pageable pageable = new PageRequest(page-1, pageSize, _sort);
         return userService.findAllUsers(pageable);
     }
 

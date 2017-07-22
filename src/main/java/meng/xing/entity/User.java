@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.ToString;
 import meng.xing.security.PasswordEncoderUtil;
+import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -29,16 +30,29 @@ public class User {
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date lastPasswordResetDate;
+    @NotNull
+    private String nickName;
+    @NotNull
+    private int age;
+    @NotNull
+    private boolean isFamale;
+    @NotNull
+    @Email
+    private String email;
+    @NotNull
+    private String address;
 
-
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_and_role", inverseJoinColumns = @JoinColumn(name = "role_id"), joinColumns = @JoinColumn(name = "user_id"))
     private Set<UserRole> roles;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_and_exam", joinColumns = @JoinColumn(name = "use_id"), inverseJoinColumns = @JoinColumn(name = "exam_id"))
     private Set<Exam> exams;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_and_paper", joinColumns = @JoinColumn(name = "use_id"), inverseJoinColumns = @JoinColumn(name = "paper_id"))
     private Set<Paper> papers;
@@ -52,12 +66,18 @@ public class User {
      * @param username 用户名
      * @param password 密码
      */
-    public User(String username, String password) {
+    public User(String username, String password,
+                String nickName, String email, String address, boolean isFamale, int age) {
         this.username = username;
         this.password = PasswordEncoderUtil.passwordEncoding(password);
         Date date = new Date();
         this.createDate = date;
         this.lastPasswordResetDate = date;
+        this.age = age;
+        this.nickName = nickName;
+        this.email = email;
+        this.address = address;
+        this.isFamale = false;
     }
 
     public Long getId() {
@@ -122,5 +142,45 @@ public class User {
 
     public void setPapers(Set<Paper> papers) {
         this.papers = papers;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public boolean isFamale() {
+        return isFamale;
+    }
+
+    public void setFamale(boolean famale) {
+        isFamale = famale;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

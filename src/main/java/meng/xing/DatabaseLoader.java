@@ -50,7 +50,7 @@ public class DatabaseLoader implements CommandLineRunner {
     public void run(String... strings) throws Exception {
 
         initeRole();//初始化权限表
-        User admin = new User(username, password);  //新建管理员账户，并授权 方便其操作数据库
+        User admin = new User(username, password,"萌萌","6415@qq.com","四川成都",false,18);  //新建管理员账户，并授权 方便其操作数据库
         authService.register(admin);
         userService.setUserRoles(username, UserRoleEnum.ROLE_ADMIN.toString(),
                 UserRoleEnum.ROLE_STUDENT.toString(),
@@ -75,7 +75,7 @@ public class DatabaseLoader implements CommandLineRunner {
 
         List<User> users = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            User user = new User("meng" + i, "meng");
+            User user = new User("meng" + i, "meng","刘星","6415@qq.com","四川成都",false,18);
             users.add(user);
         }
         users.forEach(user -> authService.register(user));

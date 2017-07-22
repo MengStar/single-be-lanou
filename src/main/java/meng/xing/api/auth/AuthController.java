@@ -1,6 +1,5 @@
 package meng.xing.api.auth;
 
-import meng.xing.entity.User;
 import meng.xing.service.auth.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,11 +33,11 @@ public class AuthController {
      * @param password
      * @return 成功：json 200 ;失败：null 200
      */
-    @PostMapping("/register")
-    public User register(@RequestParam("username")String username, @RequestParam("password")String password ){
-        User user =new User(username,password);
-        return authService.register( user);
-    }
+//    @PostMapping("/register")
+//    public User register(@RequestParam("username")String username, @RequestParam("password")String password ){
+//        User user =new User(username,password);
+//        return authService.register( user);
+//    }
 
     /**
      * 刷新token
