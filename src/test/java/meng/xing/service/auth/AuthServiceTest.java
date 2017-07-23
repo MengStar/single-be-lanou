@@ -30,7 +30,7 @@ public class AuthServiceTest {
     @Test
     public void register() throws Exception {
 
-        User user = new User("test", "test","萌萌","6415@qq.com","四川成都",false,18);
+        User user = new User("test", "test","萌萌","110","6415@qq.com","四川成都",false,18);
         logger.info("删除 userByusername：" + userService.deleteByUsername("test"));
         assert authService.register(user) != null;//第一次成功
         assert authService.register(user) == null;//第二次失败

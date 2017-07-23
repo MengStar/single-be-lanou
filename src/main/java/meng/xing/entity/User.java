@@ -35,12 +35,14 @@ public class User {
     @NotNull
     private int age;
     @NotNull
-    private boolean isFamale;
+    private boolean isFemale;
     @NotNull
     @Email
     private String email;
     @NotNull
     private String address;
+    @NotNull
+    private String phone;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
@@ -62,12 +64,11 @@ public class User {
 
     /**
      * 新建User
-     *
      * @param username 用户名
      * @param password 密码
      */
     public User(String username, String password,
-                String nickName, String email, String address, boolean isFamale, int age) {
+                String nickName, String phone,String email, String address, boolean isFemale, int age) {
         this.username = username;
         this.password = PasswordEncoderUtil.passwordEncoding(password);
         Date date = new Date();
@@ -77,7 +78,8 @@ public class User {
         this.nickName = nickName;
         this.email = email;
         this.address = address;
-        this.isFamale = false;
+        this.isFemale = isFemale;
+        this.phone=phone;
     }
 
     public Long getId() {
@@ -160,12 +162,12 @@ public class User {
         this.age = age;
     }
 
-    public boolean isFamale() {
-        return isFamale;
+    public boolean isFemale() {
+        return isFemale;
     }
 
-    public void setFamale(boolean famale) {
-        isFamale = famale;
+    public void setFemale(boolean female) {
+        isFemale = female;
     }
 
     public String getEmail() {
@@ -182,5 +184,13 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
