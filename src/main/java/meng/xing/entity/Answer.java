@@ -1,5 +1,9 @@
 package meng.xing.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "answer")
@@ -7,18 +11,32 @@ public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
+    private String answer;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "paper_id")
     private Paper paper;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "test_item_id")
     private TestItem testItem;
 
-    private String answer;
+    public Answer() {
+    }
+    public Answer(User user, Paper paper, TestItem testItem, String answer) {
+        this.user = user;
+        this.paper = paper;
+        this.testItem = testItem;
+        this.answer = answer;
+    }
+
+
 
     public Long getId() {
         return id;

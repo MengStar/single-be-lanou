@@ -54,7 +54,6 @@ public class User {
     private Set<Exam> exams;
 
     @JsonIgnore
-
     @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
     private Set<Paper> papers;
 
