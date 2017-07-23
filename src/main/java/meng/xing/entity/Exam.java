@@ -2,6 +2,7 @@ package meng.xing.entity;
 
 import javax.persistence.*;
 import java.util.Set;
+
 @Entity
 @Table(name = "exam")
 public class Exam {
@@ -9,7 +10,7 @@ public class Exam {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private String  description;
+    private String description;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Subject subject;
@@ -18,8 +19,21 @@ public class Exam {
     @JoinTable(name = "exam_and_paper")
     private Set<Paper> papers;
 
-    @ManyToMany(mappedBy = "exams",fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "exam_and_user", joinColumns = @JoinColumn(name = "exam_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users;
+
+
+    public Exam() {
+
+    }
+
+    public Exam(String description, Subject subject, Set<Paper> papers, Set<User> users) {
+        this.description = description;
+        this.subject = subject;
+        this.papers = papers;
+        this.users = users;
+    }
 
     public long getId() {
         return id;

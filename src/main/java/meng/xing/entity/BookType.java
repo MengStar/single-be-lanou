@@ -20,7 +20,7 @@ public class BookType {
     @ManyToMany(mappedBy = "bookTypes")
     private Set<Book> books;
 
-    protected BookType(){};
+    public BookType(){};
     public BookType(String type){
         this.type = type;
     }

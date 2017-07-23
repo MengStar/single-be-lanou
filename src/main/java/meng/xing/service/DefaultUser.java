@@ -3,7 +3,7 @@ package meng.xing.service;
 import meng.xing.entity.User;
 import meng.xing.entity.UserRole;
 import meng.xing.repository.UserRepository;
-import meng.xing.repository.UserRoleReponsitory;
+import meng.xing.repository.UserRoleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +20,12 @@ import java.util.Set;
  * 部分方法可缓存
  */
 @Service
-public class DefaultUserService implements UserService {
-    private final Logger logger = LoggerFactory.getLogger(DefaultUserService.class);
+public class DefaultUser implements UserService {
+    private final Logger logger = LoggerFactory.getLogger(DefaultUser.class);
     @Autowired
     UserRepository userRepository;
     @Autowired
-    UserRoleReponsitory userRoleReponsitory;
+    UserRoleRepository userRoleReponsitory;
 
     @Override
     public boolean deleteByUsername(String username) {
@@ -59,5 +59,12 @@ public class DefaultUserService implements UserService {
         logger.info(_roles.toString());
         user.setRoles(_roles);
         return userRepository.saveAndFlush(user) != null;
+    }
+
+    @Override
+    public boolean update(User user) {
+        if (userRepository.save(user) != null)
+            return true;
+        else return false;
     }
 }

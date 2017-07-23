@@ -1,6 +1,7 @@
 package meng.xing.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 
@@ -14,11 +15,32 @@ public class TestItem {
     @ManyToOne(fetch = FetchType.LAZY)
     private Subject subject;
 
-    @ManyToMany(fetch = FetchType.LAZY ,mappedBy = "testItems")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "testItems")
     private Set<Paper> papers;
-
+    @NotNull
+    private String type;
+    @NotNull
     private String question;
+    @NotNull
     private String answer;
+
+
+    public TestItem() {
+    }
+
+    public TestItem(String type, String question, String answer) {
+        this.type = type;
+        this.question = question;
+        this.answer = answer;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public long getId() {
         return id;
@@ -59,4 +81,5 @@ public class TestItem {
     public void setAnswer(String answer) {
         this.answer = answer;
     }
+
 }

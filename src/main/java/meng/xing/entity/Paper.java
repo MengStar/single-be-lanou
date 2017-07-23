@@ -14,15 +14,22 @@ public class Paper {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Subject subject;
-    @ManyToMany(mappedBy = "papers",fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "paper_and_user", joinColumns = @JoinColumn(name = "paper_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "paper_and_test_item",joinColumns = @JoinColumn(name = "test_item_id"),inverseJoinColumns = @JoinColumn(name = "paper_id"))
     private Set<TestItem>testItems;
 
+    public Paper(){}
 
-
+    public Paper(String description, Subject subject, Set<User> users, Set<TestItem> testItems) {
+        this.description = description;
+        this.subject = subject;
+        this.users = users;
+        this.testItems = testItems;
+    }
 
     public long getId() {
         return id;

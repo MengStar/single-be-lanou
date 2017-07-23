@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserRoleReponsitoryTest {
     final Logger logger = LoggerFactory.getLogger(UserRoleReponsitoryTest.class);
     @Autowired
-    UserRoleReponsitory userRoleReponsitory;
+    UserRoleRepository userRoleReponsitory;
 
     @Test
     @Transactional //一定要用事物包裹

@@ -50,25 +50,25 @@ public class User {
     private Set<UserRole> roles;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_and_exam", joinColumns = @JoinColumn(name = "use_id"), inverseJoinColumns = @JoinColumn(name = "exam_id"))
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
     private Set<Exam> exams;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_and_paper", joinColumns = @JoinColumn(name = "use_id"), inverseJoinColumns = @JoinColumn(name = "paper_id"))
+
+    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
     private Set<Paper> papers;
 
-    protected User() {
+    public User() {
     }
 
     /**
      * 新建User
+     *
      * @param username 用户名
      * @param password 密码
      */
     public User(String username, String password,
-                String nickName, String phone,String email, String address, boolean isFemale, int age) {
+                String nickName, String phone, String email, String address, boolean isFemale, int age) {
         this.username = username;
         this.password = PasswordEncoderUtil.passwordEncoding(password);
         Date date = new Date();
@@ -79,7 +79,7 @@ public class User {
         this.email = email;
         this.address = address;
         this.isFemale = isFemale;
-        this.phone=phone;
+        this.phone = phone;
     }
 
     public Long getId() {

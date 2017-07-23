@@ -39,6 +39,10 @@ public class AuthController {
     @PostMapping("/register")
     public String register(@RequestBody(required = true) Map<String, Object> map) {
         String username = map.get("username").toString();
+        //用户名存在
+        if (userService.findUserByUsername(username) != null){
+            return null;
+        }
         String password = map.get("password").toString();
         String nickName = map.get("nickName").toString();
         String phone = map.get("phone").toString();

@@ -2,6 +2,7 @@ package meng.xing.entity;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 
@@ -11,13 +12,9 @@ public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
+    @NotNull
+    @Column(unique = true)
     private String type;
-
-
-
-
-
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id")
@@ -29,7 +26,15 @@ public class Subject {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id")
-    private Set<TestItem>testItems;
+    private Set<TestItem> testItems;
+
+
+    public Subject() {
+    }
+
+    public Subject(String type) {
+        this.type = type;
+    }
 
     public String getType() {
         return type;

@@ -1,12 +1,13 @@
 package meng.xing;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import meng.xing.api.data.BookRest;
 import meng.xing.api.data.BookTypeRest;
-import meng.xing.entity.Book;
-import meng.xing.entity.BookType;
-import meng.xing.entity.User;
-import meng.xing.entity.UserRole;
-import meng.xing.repository.UserRoleReponsitory;
+import meng.xing.entity.*;
+import meng.xing.entity.testItem.ChoiceItem;
+import meng.xing.entity.testItem.TestItemType;
+import meng.xing.repository.*;
 import meng.xing.security.UserRoleEnum;
 import meng.xing.service.UserService;
 import meng.xing.service.auth.AuthService;
@@ -31,26 +32,39 @@ public class DatabaseLoader implements CommandLineRunner {
     private final UserService userService;
     private final BookRest bookRest;
     private final AuthenticationManager authenticationManager;
-    private final UserRoleReponsitory userRoleReponsitory;
+    private final UserRoleRepository userRoleRepository;
     private final BookTypeRest bookTypeRest;
+    private final SubjectRepository subjectRepository;
+    private final TestItemRepository testItemRepository;
+    private final PaperRepository paperRepository;
+    private final ExamRepository examRepository;
+
     private final String username = "admin";
     private final String password = "admin";
 
     @Autowired
-    public DatabaseLoader(BookTypeRest bookTypeRest, UserRoleReponsitory userRoleReponsitory, AuthService authService, BookRest bookRest, AuthenticationManager authenticationManager, UserService userService) {
-        this.userRoleReponsitory = userRoleReponsitory;
+    public DatabaseLoader(PaperRepository paperRepository, ExamRepository examRepository,
+                          SubjectRepository subjectRepository, BookTypeRest bookTypeRest, TestItemRepository testItemRepository
+            , UserRoleRepository userRoleRepository, AuthService authService,
+                          BookRest bookRest, AuthenticationManager authenticationManager, UserService userService) {
+        this.userRoleRepository = userRoleRepository;
         this.authService = authService;
         this.bookRest = bookRest;
         this.authenticationManager = authenticationManager;
         this.userService = userService;
         this.bookTypeRest = bookTypeRest;
+        this.subjectRepository = subjectRepository;
+        this.testItemRepository = testItemRepository;
+        this.paperRepository = paperRepository;
+        this.examRepository = examRepository;
     }
 
     @Override
     public void run(String... strings) throws Exception {
 
-        initeRole();//初始化权限表
-        User admin = new User(username, password,"萌萌","13086695953","6415@qq.com","四川省 成都市 郫县",true,18);  //新建管理员账户，并授权 方便其操作数据库
+        initRole();//初始化权限表
+        initSubject();//初始化考试类型表
+        User admin = new User(username, password, "萌萌", "13086695953", "6415@qq.com", "四川省 成都市 郫县", true, 18);  //新建管理员账户，并授权 方便其操作数据库
         authService.register(admin);
         userService.setUserRoles(username, UserRoleEnum.ROLE_ADMIN.toString(),
                 UserRoleEnum.ROLE_STUDENT.toString(),
@@ -62,8 +76,11 @@ public class DatabaseLoader implements CommandLineRunner {
 
         initBookTable();
         initUserTable();
-
-        //删除管理员账户，取消授权
+        initTestItem();
+        initPaper();
+        initExam();
+        // initExam();
+        //取消授权
         SecurityContextHolder.getContext().setAuthentication(null);
     }
 
@@ -75,7 +92,7 @@ public class DatabaseLoader implements CommandLineRunner {
 
         List<User> users = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            User user = new User("meng" + i, "meng","刘星","13086695951","6415@qq.com","四川省 成都市 郫县",false,18);
+            User user = new User("meng" + i, "meng", "刘星", "13086695951", "6415@qq.com", "四川省 成都市 郫县", false, 18);
             users.add(user);
         }
         users.forEach(user -> authService.register(user));
@@ -105,13 +122,62 @@ public class DatabaseLoader implements CommandLineRunner {
         books.forEach(book -> bookRest.save(book));
     }
 
-    private void initeRole() {
-        if (userRoleReponsitory.count() != 0)
+    private void initRole() {
+        if (userRoleRepository.count() != 0)
             return;
-        this.userRoleReponsitory.save(new UserRole("ROLE_DEVELOPER"));
-        this.userRoleReponsitory.save(new UserRole("ROLE_DEFAULT"));
-        this.userRoleReponsitory.save(new UserRole("ROLE_ADMIN"));
-        this.userRoleReponsitory.save(new UserRole("ROLE_STUDENT"));
-        this.userRoleReponsitory.save(new UserRole("ROLE_TEACHER"));
+        this.userRoleRepository.save(new UserRole("ROLE_DEVELOPER"));
+        this.userRoleRepository.save(new UserRole("ROLE_DEFAULT"));
+        this.userRoleRepository.save(new UserRole("ROLE_ADMIN"));
+        this.userRoleRepository.save(new UserRole("ROLE_STUDENT"));
+        this.userRoleRepository.save(new UserRole("ROLE_TEACHER"));
+    }
+
+    private void initSubject() {
+        if (subjectRepository.count() != 0)
+            return;
+        subjectRepository.save(new Subject("JAVA"));
+        subjectRepository.save(new Subject("WEB"));
+        subjectRepository.save(new Subject("C++"));
+
+    }
+
+    private void initTestItem() throws JsonProcessingException {
+        Map<String, String> items = new HashMap<>();
+        items.put("A", "asda");
+        items.put("B", "ds");
+        items.put("C", "sd");
+        items.put("D", "asdda");
+        ChoiceItem choiceItem = new ChoiceItem("题干", items);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(choiceItem);
+
+        TestItem t1 = new TestItem(TestItemType.QUESTION.toString(), "请简述JAVAb编译过程", "答案无");
+        TestItem t2 = new TestItem(TestItemType.CHOICE.toString(), json, "A");
+        t1.setSubject(subjectRepository.findByType("JAVA"));
+        t2.setSubject(subjectRepository.findByType("WEB"));
+
+        testItemRepository.save(t1);
+
+        testItemRepository.save(t2);
+    }
+
+    private void initPaper() {
+        Set<TestItem> items = new HashSet<>();
+        items.addAll(testItemRepository.findAll());
+        Subject subject = subjectRepository.findByType("JAVA");
+        Set<User> users = new HashSet<>();
+        User user = userService.findUserByUsername("admin");
+        users.add(user);
+        paperRepository.save(new Paper("测试试卷", subject, users, items));
+    }
+
+    private void initExam() {
+        Subject subject = subjectRepository.findByType("JAVA");
+        Set<User> users = new HashSet<>();
+        User user = userService.findUserByUsername("admin");
+        users.add(user);
+        Set<Paper> papers = new HashSet<>();
+        papers.addAll(paperRepository.findAll());
+        examRepository.save(new Exam("sdadassadas", subject, papers, users));
     }
 }

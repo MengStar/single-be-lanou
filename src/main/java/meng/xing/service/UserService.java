@@ -9,4 +9,5 @@ public interface UserService {
      User findUserByUsername(String username);
      Page<User> findAllUsers(Pageable pageable);
      boolean setUserRoles(String username , String ... roles);
+     boolean update(User user);
 }

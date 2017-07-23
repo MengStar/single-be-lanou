@@ -1,6 +1,7 @@
 package meng.xing.api.normol;
 
 import meng.xing.entity.User;
+import meng.xing.repository.UserRepository;
 import meng.xing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,7 +23,8 @@ import java.util.stream.Collectors;
 public class UserController {
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * username获取user信息
@@ -51,24 +53,44 @@ public class UserController {
     /**
      * 分页user查询
      * 鉴权：ADMIN
-     * @param page  当前页面
-     * @param pageSize  每页大小
-     * @param sort  排序字段
-     * @param order 排列顺序 ASC or DESC
+     *
+     * @param page     当前页面
+     * @param pageSize 每页大小
+     * @param sort     排序字段
+     * @param order    排列顺序 ASC or DESC
      * @return 成功：json 200; 失败：json 403
      */
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     //需要ADMIN权限,有个天坑：hasAuthority('ROLE_ADMIN') means the the same as hasRole('ADMIN')
-    public Page<User> getAllUsers(@RequestParam(value = "page",required = false,defaultValue = "1") Integer page,
-                                  @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize,
+    public Page<User> getAllUsers(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+                                  @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize,
                                   @RequestParam(value = "sort", defaultValue = "id") String sort,
                                   @RequestParam(value = "order", defaultValue = "asc") String order) {
 
         Sort _sort = new Sort(Sort.Direction.fromString(order), sort);
         //传来的页码是从1开始，而服务器从1开始算
-        Pageable pageable = new PageRequest(page-1, pageSize, _sort);
+        Pageable pageable = new PageRequest(page - 1, pageSize, _sort);
         return userService.findAllUsers(pageable);
+    }
+
+    /**
+     * 修改用户
+     *
+     * @param id
+     * @param map
+     */
+    @PatchMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public boolean update(@PathVariable("id") Long id, @RequestBody(required = true) Map<String, Object> map) {
+        User user = userRepository.findOne(id);
+        user.setNickName(map.get("nickName").toString());
+        user.setFemale((boolean)map.get("female"));
+        user.setAge((int)map.get("age"));
+        user.setAddress(map.get("address").toString());
+        user.setEmail(map.get("email").toString());
+        user.setPhone(map.get("phone").toString());
+      return userService.update(user);
     }
 
 }
