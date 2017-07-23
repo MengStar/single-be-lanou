@@ -22,6 +22,9 @@ public class Paper {
     @JoinTable(name = "paper_and_test_item",joinColumns = @JoinColumn(name = "test_item_id"),inverseJoinColumns = @JoinColumn(name = "paper_id"))
     private Set<TestItem>testItems;
 
+    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "papers")
+    private  Set<Exam> exams;
+
     public Paper(){}
 
     public Paper(String description, Subject subject, Set<User> users, Set<TestItem> testItems) {
@@ -29,6 +32,14 @@ public class Paper {
         this.subject = subject;
         this.users = users;
         this.testItems = testItems;
+    }
+
+    public Set<Exam> getExams() {
+        return exams;
+    }
+
+    public void setExams(Set<Exam> exams) {
+        this.exams = exams;
     }
 
     public long getId() {
