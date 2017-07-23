@@ -1,7 +1,5 @@
 package meng.xing.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -14,15 +12,14 @@ public class Answer {
     @NotNull
     private String answer;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn(name = "paper_id")
     private Paper paper;
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn(name = "test_item_id")
     private TestItem testItem;

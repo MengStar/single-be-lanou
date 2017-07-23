@@ -1,7 +1,5 @@
 package meng.xing.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
@@ -13,10 +11,10 @@ public class TestItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne(fetch = FetchType.EAGER)
     private Subject subject;
-    @JsonIgnore
+
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "testItems")
     private Set<Paper> papers;
 

@@ -1,7 +1,5 @@
 package meng.xing.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
@@ -20,7 +18,7 @@ public class BookType {
     private String type; //类型名
     private String description;//类型描述
 
-    @JsonIgnore
+
     @ManyToMany(mappedBy = "bookTypes")
     private Set<Book> books;
 

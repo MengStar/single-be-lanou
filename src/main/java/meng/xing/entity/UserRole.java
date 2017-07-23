@@ -1,7 +1,5 @@
 package meng.xing.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
@@ -20,7 +18,7 @@ public class UserRole {
     @NotNull
     @Column(unique = true)
     private String role;
-    @JsonIgnore
+
     @ManyToMany(mappedBy = "roles",fetch = FetchType.LAZY)
     private Set<User> users;
 

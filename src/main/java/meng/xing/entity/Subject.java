@@ -1,8 +1,6 @@
 package meng.xing.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
@@ -17,15 +15,16 @@ public class Subject {
     @NotNull
     @Column(unique = true)
     private String type;
-    @JsonIgnore
+
+
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id")
     private Set<Paper> papers;
-    @JsonIgnore
+
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id")
     private Set<Exam> exams;
-    @JsonIgnore
+
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id")
     private Set<TestItem> testItems;

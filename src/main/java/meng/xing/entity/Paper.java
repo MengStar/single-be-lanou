@@ -1,7 +1,5 @@
 package meng.xing.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -13,20 +11,21 @@ public class Paper {
     private long id;
 
     private String description;
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne(fetch = FetchType.EAGER)
     private Subject subject;
-    @JsonIgnore
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "paper_and_user", joinColumns = @JoinColumn(name = "paper_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users;
-    @JsonIgnore
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "paper_and_test_item", joinColumns = @JoinColumn(name = "test_item_id"), inverseJoinColumns = @JoinColumn(name = "paper_id"))
     private Set<TestItem> testItems;
-    @JsonIgnore
+
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "papers")
     private Set<Exam> exams;
+
 
     public Paper() {
     }

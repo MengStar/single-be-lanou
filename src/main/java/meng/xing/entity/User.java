@@ -44,16 +44,15 @@ public class User {
     @NotNull
     private String phone;
 
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_and_role", inverseJoinColumns = @JoinColumn(name = "role_id"), joinColumns = @JoinColumn(name = "user_id"))
     private Set<UserRole> roles;
 
-    @JsonIgnore
+
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
     private Set<Exam> exams;
 
-    @JsonIgnore
+
     @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
     private Set<Paper> papers;
 
