@@ -28,12 +28,6 @@ public class DefaultUser implements UserService {
     UserRoleRepository userRoleReponsitory;
 
     @Override
-    public boolean deleteByUsername(String username) {
-        return userRepository.deleteByUsername(username) != 0;
-
-    }
-
-    @Override
     @Cacheable(value = "UserService", key = "#username") //可以缓存
     public User findUserByUsername(String username) {
         User user = userRepository.findByUsername(username);
@@ -62,9 +56,14 @@ public class DefaultUser implements UserService {
     }
 
     @Override
-    public boolean update(User user) {
+    public boolean updateUser(User user) {
         if (userRepository.save(user) != null)
             return true;
         else return false;
+    }
+
+    @Override
+    public boolean deleteUserById(Long id) {
+        return false;
     }
 }

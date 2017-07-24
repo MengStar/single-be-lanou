@@ -1,4 +1,4 @@
-package meng.xing.api.normol;
+package meng.xing.api;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

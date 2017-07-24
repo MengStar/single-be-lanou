@@ -5,7 +5,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface TestItemService {
-    Page<TestItem> findAllTestItems(Pageable pageable);
 
     Page<TestItem> findTestItemsByType(String type, Pageable pageable);
+
+    boolean addTestItme(TestItem testItem);
+
+    boolean updateTestItem(TestItem testItem);
+
+    boolean deleteTestItemById(Long id);
 }

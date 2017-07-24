@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,8 +19,16 @@ public class TestItemController {
     @Autowired
     private TestItemService testItemService;
 
+    /**
+     * 按类型，分页查询
+     * @param type
+     * @param page
+     * @param pageSize
+     * @param sort
+     * @param order
+     * @return
+     */
     @GetMapping
-    @Transactional
     public Page<TestItem> getAllUsers(
             @RequestParam(value = "type", defaultValue = "1") int type,
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,

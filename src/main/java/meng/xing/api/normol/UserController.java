@@ -29,7 +29,6 @@ public class UserController {
     /**
      * username获取user信息
      * 鉴权：当前用户 or ADMIN
-     *
      * @param username
      * @return 成功：json 200; 失败：json 403
      */
@@ -53,7 +52,6 @@ public class UserController {
     /**
      * 分页user查询
      * 鉴权：ADMIN
-     *
      * @param page     当前页面
      * @param pageSize 每页大小
      * @param sort     排序字段
@@ -76,7 +74,6 @@ public class UserController {
 
     /**
      * 修改用户
-     *
      * @param id
      * @param map
      */
@@ -90,7 +87,7 @@ public class UserController {
         user.setAddress(map.get("address").toString());
         user.setEmail(map.get("email").toString());
         user.setPhone(map.get("phone").toString());
-      return userService.update(user);
+      return userService.updateUser(user);
     }
 
 }

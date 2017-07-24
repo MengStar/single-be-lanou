@@ -18,17 +18,24 @@ public class DefaultTestItem implements TestItemService {
     @Autowired
     UserRoleRepository userRoleRepository;
 
-    @Override
-    public Page<TestItem> findAllTestItems(Pageable pageable) {
-        Page<TestItem> page1 = testItemRepository.findAll(pageable);
-        //若是懒加载，则需要调用一哈，否则不会去查询
-        //page1.forEach(testItem -> testItem.getSubject().toString());
-        return page1;
-
-    }
 
     @Override
     public Page<TestItem> findTestItemsByType(String type, Pageable pageable) {
-        return testItemRepository.findByType(type,pageable);
+        return testItemRepository.findByType(type, pageable);
+    }
+
+    @Override
+    public boolean addTestItme(TestItem testItem) {
+        return false;
+    }
+
+    @Override
+    public boolean updateTestItem(TestItem testItem) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteTestItemById(Long id) {
+        return false;
     }
 }
