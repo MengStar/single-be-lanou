@@ -26,4 +26,9 @@ public class DefaultTestItem implements TestItemService {
         return page1;
 
     }
+
+    @Override
+    public Page<TestItem> findTestItemsByType(String type, Pageable pageable) {
+        return testItemRepository.findByType(type,pageable);
+    }
 }
