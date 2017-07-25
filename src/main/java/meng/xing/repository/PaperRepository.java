@@ -1,6 +1,8 @@
 package meng.xing.repository;
 
 import meng.xing.entity.Paper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
@@ -11,4 +13,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RepositoryRestResource(exported = false) //不是rest风格的资源，不能通过url直接获取。必须从controller访问
 public interface PaperRepository extends JpaRepository<Paper,Long> {
+    Page<Paper> findAll(Pageable pageable);
 }

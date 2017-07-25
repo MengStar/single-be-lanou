@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class DefaultTestItem implements TestItemService {
@@ -25,16 +26,19 @@ public class DefaultTestItem implements TestItemService {
     }
 
     @Override
+    @Transactional
     public boolean addTestItme(TestItem testItem) {
         return false;
     }
 
     @Override
+    @Transactional
     public boolean updateTestItem(TestItem testItem) {
         return false;
     }
 
     @Override
+    @Transactional
     public boolean deleteTestItemById(Long id) {
         return false;
     }

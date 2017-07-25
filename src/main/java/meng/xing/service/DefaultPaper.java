@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by Administrator on 2017/7/23.
@@ -17,20 +18,23 @@ public class DefaultPaper implements PaperService{
 
     @Override
     public Page<Paper> findAllPapers(Pageable pageable) {
-        return null;
+        return paperRepository.findAll(pageable);
     }
 
     @Override
+    @Transactional
     public boolean addPaper(Paper paper) {
         return false;
     }
 
     @Override
+    @Transactional
     public boolean updatePaper(Paper paper) {
         return false;
     }
 
     @Override
+    @Transactional
     public boolean deletePaperById(Long paper) {
         return false;
     }

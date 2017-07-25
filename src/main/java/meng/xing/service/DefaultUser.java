@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +26,7 @@ public class DefaultUser implements UserService {
     @Autowired
     UserRepository userRepository;
     @Autowired
-    UserRoleRepository userRoleReponsitory;
+    UserRoleRepository userRoleRepository;
 
     @Override
     @Cacheable(value = "UserService", key = "#username") //可以缓存
@@ -43,11 +44,12 @@ public class DefaultUser implements UserService {
     }
 
     @Override
+    @Transactional
     public boolean setUserRoles(String username, String... roles) {
 
         Set<UserRole> _roles = new HashSet<>();
         for (int i = 0; i < roles.length; i++) {
-            _roles.add(userRoleReponsitory.findByRole(roles[i]));
+            _roles.add(userRoleRepository.findByRole(roles[i]));
         }
         User user = userRepository.findByUsername(username);
         logger.info(_roles.toString());
@@ -56,6 +58,7 @@ public class DefaultUser implements UserService {
     }
 
     @Override
+    @Transactional
     public boolean updateUser(User user) {
         if (userRepository.save(user) != null)
             return true;
@@ -63,6 +66,7 @@ public class DefaultUser implements UserService {
     }
 
     @Override
+    @Transactional
     public boolean deleteUserById(Long id) {
         return false;
     }
