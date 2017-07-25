@@ -68,6 +68,7 @@ public class DefaultUser implements UserService {
     @Override
     @Transactional
     public boolean deleteUserById(Long id) {
-        return false;
+         userRepository.delete(id);
+         return true;
     }
 }

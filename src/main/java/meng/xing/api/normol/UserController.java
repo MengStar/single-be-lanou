@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -29,6 +30,7 @@ public class UserController {
     /**
      * username获取user信息
      * 鉴权：当前用户 or ADMIN
+     *
      * @param username
      * @return 成功：json 200; 失败：json 403
      */
@@ -52,6 +54,7 @@ public class UserController {
     /**
      * 分页user查询
      * 鉴权：ADMIN
+     *
      * @param page     当前页面
      * @param pageSize 每页大小
      * @param sort     排序字段
@@ -74,6 +77,7 @@ public class UserController {
 
     /**
      * 修改用户
+     *
      * @param id
      * @param map
      */
@@ -82,12 +86,38 @@ public class UserController {
     public boolean update(@PathVariable("id") Long id, @RequestBody(required = true) Map<String, Object> map) {
         User user = userRepository.findOne(id);
         user.setNickName(map.get("nickName").toString());
-        user.setFemale((boolean)map.get("female"));
-        user.setAge((int)map.get("age"));
+        user.setFemale((boolean) map.get("female"));
+        user.setAge((int) map.get("age"));
         user.setAddress(map.get("address").toString());
         user.setEmail(map.get("email").toString());
         user.setPhone(map.get("phone").toString());
-      return userService.updateUser(user);
+        return userService.updateUser(user);
     }
 
+    /**
+     * 删除用户
+     *
+     * @param id
+     * @param
+     */
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public boolean delete(@PathVariable("id") Long id) {
+        return userService.deleteUserById(id);
+    }
+
+    /**
+     * 批量删除用户
+     * 前端传来ids 数组
+     *
+     * @param
+     */
+    @DeleteMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public void delete(@RequestBody(required = true) Map<String, ArrayList<Long>> map) {
+
+        map.get("ids").forEach(id -> userService.deleteUserById(id));
+
+
+    }
 }
