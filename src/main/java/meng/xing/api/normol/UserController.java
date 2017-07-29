@@ -67,8 +67,9 @@ public class UserController {
     public Page<User> getAllUsers(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
                                   @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize,
                                   @RequestParam(value = "sort", defaultValue = "id") String sort,
-                                  @RequestParam(value = "order", defaultValue = "asc") String order) {
-
+                                  @RequestParam(value = "order", defaultValue = "asc") String order,
+                                  @RequestParam(value = "username",required= false) String username) {
+        System.out.println(username);
         Sort _sort = new Sort(Sort.Direction.fromString(order), sort);
         //传来的页码是从1开始，而服务器从1开始算
         Pageable pageable = new PageRequest(page - 1, pageSize, _sort);
@@ -109,7 +110,7 @@ public class UserController {
     /**
      * 批量删除用户
      * 前端传来ids 数组
-     *
+
      * @param
      */
     @DeleteMapping

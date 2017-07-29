@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class PaperController {
     @Autowired
     PaperService paperService;
-
     /**
      * 分页查询
      * @param page
