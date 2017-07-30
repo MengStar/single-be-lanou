@@ -23,7 +23,7 @@ public class Paper {
     @JoinTable(name = "paper_and_test_item", joinColumns = @JoinColumn(name = "test_item_id"), inverseJoinColumns = @JoinColumn(name = "paper_id"))
     private Set<TestItem> testItems;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "papers")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "paper")
     private Set<Exam> exams;
 
 

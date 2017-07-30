@@ -176,8 +176,7 @@ public class DatabaseLoader implements CommandLineRunner {
         Set<User> users = new HashSet<>();
         User user = userService.findUserByUsername("admin");
         users.add(user);
-        Set<Paper> papers = new HashSet<>();
-        papers.addAll(paperRepository.findAll());
-        examRepository.save(new Exam("sdadassadas", subject, papers, users));
+        Paper paper = paperRepository.findOne((long)1);
+        examRepository.save(new Exam("这是一场很难的考试", subject, paper, users));
     }
 }

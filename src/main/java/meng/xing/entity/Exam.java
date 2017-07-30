@@ -18,9 +18,8 @@ public class Exam {
     @ManyToOne(fetch = FetchType.EAGER)
     private Subject subject;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "exam_and_paper", joinColumns = @JoinColumn(name = "exam_id"), inverseJoinColumns = @JoinColumn(name = "paper_id"))
-    private Set<Paper> papers;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Paper paper;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "exam_and_user", joinColumns = @JoinColumn(name = "exam_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
@@ -31,10 +30,10 @@ public class Exam {
 
     }
 
-    public Exam(String description, Subject subject, Set<Paper> papers, Set<User> users) {
+    public Exam(String description, Subject subject, Paper paper, Set<User> users) {
         this.description = description;
         this.subject = subject;
-        this.papers = papers;
+        this.paper = paper;
         this.users = users;
     }
 
@@ -54,12 +53,12 @@ public class Exam {
         this.subject = subject;
     }
 
-    public Set<Paper> getPapers() {
-        return papers;
+    public Paper getPaper() {
+        return paper;
     }
 
-    public void setPapers(Set<Paper> papers) {
-        this.papers = papers;
+    public void setPaper(Paper paper) {
+        this.paper = paper;
     }
 
     public String getDescription() {
