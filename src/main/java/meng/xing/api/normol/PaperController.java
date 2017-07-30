@@ -8,10 +8,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/papers")
@@ -37,5 +37,12 @@ public class PaperController {
         //传来的页码是从1开始，而服务器从1开始算
         Pageable pageable = new PageRequest(page - 1, pageSize, _sort);
         return paperService.findAllPapers(pageable);
+    }
+    @GetMapping("/{id}")
+    public Map<String, Object> getPaperById(@PathVariable("id") Long id) {
+        Paper _paper = paperService.findPaperById(id);
+        Map<String, Object> paper = new HashMap<>();
+        paper.put("testItems",_paper.getTestItems());
+        return paper;
     }
 }

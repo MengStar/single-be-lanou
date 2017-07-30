@@ -22,7 +22,7 @@ public class TestItemController {
 
     @GetMapping
     @Transactional
-    public Page<TestItem> getAllUsers(
+    public Page<TestItem> getAllTestItems(
             @RequestParam(value = "type", defaultValue = "1") int type,
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
             @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,

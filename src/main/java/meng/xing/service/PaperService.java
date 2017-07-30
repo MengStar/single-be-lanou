@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
  */
 public interface PaperService {
     Page<Paper> findAllPapers(Pageable pageable);
+    Paper findPaperById(Long id);
     boolean addPaper(Paper paper);
     boolean updatePaper(Paper paper);
     boolean deletePaperById(Long paper);

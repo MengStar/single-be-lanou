@@ -22,6 +22,11 @@ public class DefaultPaper implements PaperService{
     }
 
     @Override
+    public Paper findPaperById(Long id) {
+        return paperRepository.findOne(id);
+    }
+
+    @Override
     @Transactional
     public boolean addPaper(Paper paper) {
         return false;

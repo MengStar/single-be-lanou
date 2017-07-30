@@ -18,7 +18,7 @@ public class Exam {
     @ManyToOne(fetch = FetchType.EAGER)
     private Subject subject;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "exam_and_paper", joinColumns = @JoinColumn(name = "exam_id"), inverseJoinColumns = @JoinColumn(name = "paper_id"))
     private Set<Paper> papers;
 
