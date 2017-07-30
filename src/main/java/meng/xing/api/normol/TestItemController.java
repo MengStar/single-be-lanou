@@ -2,24 +2,26 @@ package meng.xing.api.normol;
 
 import meng.xing.entity.TestItem;
 import meng.xing.entity.testItem.TestItemType;
+import meng.xing.repository.SubjectRepository;
 import meng.xing.service.TestItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/testItems")
 public class TestItemController {
     @Autowired
     private TestItemService testItemService;
-
+    @Autowired
+    private SubjectRepository subjectRepository;
     @GetMapping
     @Transactional
     public Page<TestItem> getAllTestItems(
@@ -41,5 +43,14 @@ public class TestItemController {
 
         return testItemService.findTestItemsByType(typeStr, pageable);
 
+    }
+    @PatchMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('TEACHER')")
+    public boolean update(@PathVariable("id") Long id, @RequestBody(required = true) Map<String, Object> map) {
+        TestItem testItem = testItemService.findTestItemById(id);
+        testItem.setAnswer(map.get("answer").toString());
+        testItem.setQuestion(map.get("question").toString());
+        testItem.setSubject(subjectRepository.findByType(map.get("subject").toString()));
+        return testItemService.updateTestItem(testItem);
     }
 }

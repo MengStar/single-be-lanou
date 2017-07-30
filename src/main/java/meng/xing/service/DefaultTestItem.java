@@ -34,12 +34,20 @@ public class DefaultTestItem implements TestItemService {
     @Override
     @Transactional
     public boolean updateTestItem(TestItem testItem) {
-        return false;
+        if (testItemRepository.save(testItem) != null)
+            return true;
+        else return false;
+
     }
 
     @Override
     @Transactional
     public boolean deleteTestItemById(Long id) {
         return false;
+    }
+
+    @Override
+    public TestItem findTestItemById(Long id) {
+        return testItemRepository.findOne(id);
     }
 }

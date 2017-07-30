@@ -13,4 +13,6 @@ public interface TestItemService {
     boolean updateTestItem(TestItem testItem);
 
     boolean deleteTestItemById(Long id);
+
+    TestItem findTestItemById(Long id);
 }
