@@ -22,7 +22,7 @@ public class UserRole {
     @ManyToMany(mappedBy = "roles",fetch = FetchType.LAZY)
     private Set<User> users;
 
-    public UserRole() {
+    protected UserRole() {
     }
     public UserRole(String role) {
         this.role = role;

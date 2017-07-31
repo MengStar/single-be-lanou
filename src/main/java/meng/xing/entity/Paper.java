@@ -26,7 +26,7 @@ public class Paper {
     private Set<Exam> exams;
 
 
-    public Paper() {
+    protected Paper() {
     }
 
     public Paper(String description, Subject subject, User user, Set<TestItem> testItems) {

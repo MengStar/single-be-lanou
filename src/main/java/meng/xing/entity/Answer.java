@@ -24,7 +24,7 @@ public class Answer {
     @JoinColumn(name = "test_item_id")
     private TestItem testItem;
 
-    public Answer() {
+    protected Answer() {
     }
     public Answer(User user, Paper paper, TestItem testItem, String answer) {
         this.user = user;

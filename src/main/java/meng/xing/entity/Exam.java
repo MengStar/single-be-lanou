@@ -2,7 +2,6 @@ package meng.xing.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
 
 @Entity
 @Table(name = "exam")
@@ -21,20 +20,19 @@ public class Exam {
     @ManyToOne(fetch = FetchType.EAGER)
     private Paper paper;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "exam_and_user", joinColumns = @JoinColumn(name = "exam_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<User> users;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
 
-    public Exam() {
+    protected Exam() {
 
     }
 
-    public Exam(String description, Subject subject, Paper paper, Set<User> users) {
+    public Exam(String description, Subject subject, Paper paper, User user) {
         this.description = description;
         this.subject = subject;
         this.paper = paper;
-        this.users = users;
+        this.user = user;
     }
 
     public long getId() {
@@ -69,11 +67,11 @@ public class Exam {
         this.description = description;
     }
 
-    public Set<User> getUsers() {
-        return users;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

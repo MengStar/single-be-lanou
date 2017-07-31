@@ -26,7 +26,7 @@ public class TestItem {
     private String answer;
 
 
-    public TestItem() {
+    protected TestItem() {
     }
 
     public TestItem(String type, String question, String answer) {

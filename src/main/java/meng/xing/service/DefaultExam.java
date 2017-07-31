@@ -18,6 +18,11 @@ public class DefaultExam implements ExamService {
     }
 
     @Override
+    public Exam findExamById(Long id) {
+        return examRepository.findOne(id);
+    }
+
+    @Override
     @Transactional
     public boolean addExam(Exam exam){
         if (examRepository.save(exam) != null)

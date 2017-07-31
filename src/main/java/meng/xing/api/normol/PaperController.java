@@ -33,9 +33,7 @@ public class PaperController {
     UserService userService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
-    //需要ADMIN权限,有个天坑：hasAuthority('ROLE_ADMIN') means the the same as hasRole('ADMIN')
-    public Page<Paper> findAllExams(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+    public Page<Paper> findAllPaper(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
                                     @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize,
                                     @RequestParam(value = "sort", defaultValue = "id") String sort,
                                     @RequestParam(value = "order", defaultValue = "asc") String order) {

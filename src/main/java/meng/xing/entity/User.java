@@ -48,15 +48,13 @@ public class User {
     @JoinTable(name = "user_and_role", inverseJoinColumns = @JoinColumn(name = "role_id"), joinColumns = @JoinColumn(name = "user_id"))
     private Set<UserRole> roles;
 
-
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Exam> exams;
-
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Paper> papers;
 
-    public User() {
+    protected User() {
     }
 
     /**

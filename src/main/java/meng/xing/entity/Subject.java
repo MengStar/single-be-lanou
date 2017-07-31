@@ -30,7 +30,7 @@ public class Subject {
     private Set<TestItem> testItems;
 
 
-    public Subject() {
+    protected Subject() {
     }
 
     public Subject(String type) {

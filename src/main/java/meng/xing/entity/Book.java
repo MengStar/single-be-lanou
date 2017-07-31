@@ -37,7 +37,7 @@ public class Book {
     @JoinTable(name = "book_and__type", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "type_id"))
     private Set<BookType> bookTypes;
 
-    public Book() {
+    protected Book() {
     }
 
     public Book(String bookName, String authorName, String bookPress, Date pubDate, String bookAbstract) {
