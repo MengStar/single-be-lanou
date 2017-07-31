@@ -1,12 +1,13 @@
 package meng.xing.service;
 
 import meng.xing.entity.Exam;
+import meng.xing.entity.Subject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ExamService {
-    Page<Exam> findAllExams(Pageable pageable);
 
+    Page<Exam> findAllExamsBySubject(Subject subject,Pageable pageable);
     Exam findExamById(Long id);
 
     boolean addExam(Exam exam);

@@ -39,6 +39,11 @@ public class DefaultUser implements UserService {
     }
 
     @Override
+    public User findUserById(Long id) {
+        return userRepository.findOne(id);
+    }
+
+    @Override
     public Page<User> findAllUsers(Pageable pageable) {
         return userRepository.findAll(pageable);
     }

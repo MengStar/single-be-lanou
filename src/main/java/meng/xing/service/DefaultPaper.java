@@ -1,6 +1,7 @@
 package meng.xing.service;
 
 import meng.xing.entity.Paper;
+import meng.xing.entity.Subject;
 import meng.xing.repository.PaperRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,9 +17,13 @@ public class DefaultPaper implements PaperService {
     @Autowired
     PaperRepository paperRepository;
 
+
     @Override
-    public Page<Paper> findAllPapers(Pageable pageable) {
-        return paperRepository.findAll(pageable);
+    public Page<Paper> findAllPapersBySubject(Subject subject, Pageable pageable) {
+        if (subject == null){
+            return paperRepository.findAll(pageable);
+        }
+        return paperRepository.findBySubject(subject,pageable);
     }
 
     @Override

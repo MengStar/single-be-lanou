@@ -8,7 +8,7 @@ public interface UserService {
 
 
     User findUserByUsername(String username);
-
+    User findUserById(Long id);
     Page<User> findAllUsers(Pageable pageable);
 
     boolean setUserRoles(String username, String... roles);

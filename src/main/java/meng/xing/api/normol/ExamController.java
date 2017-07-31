@@ -47,11 +47,16 @@ public class ExamController {
     public Page<Exam> findAllExams(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
                                    @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize,
                                    @RequestParam(value = "sort", defaultValue = "id") String sort,
-                                   @RequestParam(value = "order", defaultValue = "asc") String order) {
+                                   @RequestParam(value = "order", defaultValue = "asc") String order,
+                                   @RequestParam(value = "subject", defaultValue = "") String subject) {
+        Subject subjectObj = null;
+        if (subject != "") {
+            subjectObj = subjectService.findSubjectByType(subject);
+        }
         Sort _sort = new Sort(Sort.Direction.fromString(order), sort);
         //传来的页码是从1开始，而服务器从1开始算
         Pageable pageable = new PageRequest(page - 1, pageSize, _sort);
-        return examService.findAllExams(pageable);
+        return examService.findAllExamsBySubject(subjectObj,pageable);
     }
 
     @PatchMapping("/{id}")
@@ -75,7 +80,7 @@ public class ExamController {
         Paper paper = paperService.findPaperById(Long.valueOf(map.get("paperId").toString()));
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.findUserByUsername(userDetails.getUsername());
-        Exam exam = new Exam(description,subject,paper,user);
+        Exam exam = new Exam(description, subject, paper, user);
         return examService.addExam(exam);
     }
 

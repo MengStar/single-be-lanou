@@ -1,7 +1,6 @@
 package meng.xing.api.normol;
 
 import meng.xing.entity.User;
-import meng.xing.repository.UserRepository;
 import meng.xing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,8 +22,6 @@ import java.util.stream.Collectors;
 public class UserController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private UserRepository userRepository;
 
     /**
      * username获取user信息
@@ -85,7 +81,7 @@ public class UserController {
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public boolean update(@PathVariable("id") Long id, @RequestBody Map<String, Object> map) {
-        User user = userRepository.findOne(id);
+        User user = userService.findUserById(id);
         user.setNickName(map.get("nickName").toString());
         user.setFemale((boolean) map.get("female"));
         user.setAge((int) map.get("age"));

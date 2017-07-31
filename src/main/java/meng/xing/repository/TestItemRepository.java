@@ -1,5 +1,6 @@
 package meng.xing.repository;
 
+import meng.xing.entity.Subject;
 import meng.xing.entity.TestItem;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,5 +14,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RepositoryRestResource(exported = false) //不是rest风格的资源，不能通过url直接获取。必须从controller访问
 public interface TestItemRepository extends JpaRepository<TestItem,Long> {
+    Page<TestItem> findByTypeAndSubject(String type , Subject subject,Pageable pageable);
     Page<TestItem> findByType(String type ,Pageable pageable);
 }

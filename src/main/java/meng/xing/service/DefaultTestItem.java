@@ -1,5 +1,6 @@
 package meng.xing.service;
 
+import meng.xing.entity.Subject;
 import meng.xing.entity.TestItem;
 import meng.xing.repository.TestItemRepository;
 import meng.xing.repository.UserRoleRepository;
@@ -21,8 +22,11 @@ public class DefaultTestItem implements TestItemService {
 
 
     @Override
-    public Page<TestItem> findTestItemsByType(String type, Pageable pageable) {
-        return testItemRepository.findByType(type, pageable);
+    public Page<TestItem> findTestItemsByTypeAndSubject(String type, Subject subject, Pageable pageable) {
+        if (subject ==null){
+            return testItemRepository.findByType(type,pageable);
+        }
+        return testItemRepository.findByTypeAndSubject(type,subject,pageable);
     }
 
     @Override
