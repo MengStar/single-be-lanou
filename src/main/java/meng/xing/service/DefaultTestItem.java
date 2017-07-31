@@ -28,7 +28,9 @@ public class DefaultTestItem implements TestItemService {
     @Override
     @Transactional
     public boolean addTestItme(TestItem testItem) {
-        return false;
+        if (testItemRepository.save(testItem) != null)
+            return true;
+        else return false;
     }
 
     @Override
@@ -43,7 +45,8 @@ public class DefaultTestItem implements TestItemService {
     @Override
     @Transactional
     public boolean deleteTestItemById(Long id) {
-        return false;
+        testItemRepository.delete(id);
+        return true;
     }
 
     @Override

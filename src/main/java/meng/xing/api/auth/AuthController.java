@@ -5,6 +5,7 @@ import meng.xing.security.UserRoleEnum;
 import meng.xing.service.UserService;
 import meng.xing.service.auth.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -42,6 +43,7 @@ public class AuthController {
      * @return 成功：token 200 ;失败：null 200
      */
     @PostMapping("/register")
+    @Transactional
     public Map<String, Object> register(@RequestBody(required = true) Map<String, Object> map) {
         String username = map.get("username").toString();
         //用户名存在

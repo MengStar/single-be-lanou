@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Created by Administrator on 2017/7/23.
  */
 @Service
-public class DefaultPaper implements PaperService{
+public class DefaultPaper implements PaperService {
     @Autowired
     PaperRepository paperRepository;
 
@@ -29,19 +29,24 @@ public class DefaultPaper implements PaperService{
     @Override
     @Transactional
     public boolean addPaper(Paper paper) {
-        return false;
+        if (paperRepository.save(paper) != null)
+            return true;
+        else return false;
     }
 
     @Override
     @Transactional
     public boolean updatePaper(Paper paper) {
-        return false;
+        if (paperRepository.save(paper) != null)
+            return true;
+        else return false;
     }
 
     @Override
     @Transactional
-    public boolean deletePaperById(Long paper) {
-        return false;
+    public boolean deletePaperById(Long id) {
+        paperRepository.delete(id);
+        return true;
     }
 
 }

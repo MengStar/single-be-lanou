@@ -167,8 +167,7 @@ public class DatabaseLoader implements CommandLineRunner {
         Subject subject = subjectRepository.findByType("JAVA");
         Set<User> users = new HashSet<>();
         User user = userService.findUserByUsername("admin");
-        users.add(user);
-        paperRepository.save(new Paper("测试试卷", subject, users, items));
+        paperRepository.save(new Paper("测试试卷", subject, user, items));
     }
 
     private void initExam() {

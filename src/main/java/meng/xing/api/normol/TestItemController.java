@@ -10,9 +10,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 @RestController
@@ -22,8 +22,8 @@ public class TestItemController {
     private TestItemService testItemService;
     @Autowired
     private SubjectRepository subjectRepository;
+
     @GetMapping
-    @Transactional
     public Page<TestItem> getAllTestItems(
             @RequestParam(value = "type", defaultValue = "1") int type,
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
@@ -40,17 +40,41 @@ public class TestItemController {
         Sort _sort = new Sort(Sort.Direction.fromString(order), sort);
         //传来的页码是从1开始，而服务器从1开始算
         Pageable pageable = new PageRequest(page - 1, pageSize, _sort);
-
         return testItemService.findTestItemsByType(typeStr, pageable);
 
     }
+
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('TEACHER')")
-    public boolean update(@PathVariable("id") Long id, @RequestBody(required = true) Map<String, Object> map) {
+    public boolean update(@PathVariable("id") Long id, @RequestBody Map<String, Object> map) {
         TestItem testItem = testItemService.findTestItemById(id);
         testItem.setAnswer(map.get("answer").toString());
         testItem.setQuestion(map.get("question").toString());
         testItem.setSubject(subjectRepository.findByType(map.get("subject").toString()));
         return testItemService.updateTestItem(testItem);
     }
+
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN') or hasRole('TEACHER')")
+    public boolean create(@RequestBody Map<String, Object> map) {
+        TestItem testItem = new TestItem(
+                map.get("type").toString(),
+                map.get("question").toString(),
+                map.get("answer").toString());
+        testItem.setSubject(subjectRepository.findByType(map.get("subject").toString()));
+        return testItemService.addTestItme(testItem);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('TEACHER')")
+    public boolean delete(@PathVariable("id") Long id) {
+        return testItemService.deleteTestItemById(id);
+    }
+
+    @DeleteMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public void delete(@RequestBody Map<String, ArrayList<Long>> map) {
+        map.get("ids").forEach(id -> testItemService.deleteTestItemById(id));
+    }
+
 }

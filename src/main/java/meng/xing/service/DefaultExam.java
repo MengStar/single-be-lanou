@@ -19,19 +19,24 @@ public class DefaultExam implements ExamService {
 
     @Override
     @Transactional
-    public boolean addExam(Exam exam) {
-        return false;
+    public boolean addExam(Exam exam){
+        if (examRepository.save(exam) != null)
+            return true;
+        else return false;
     }
 
     @Override
     @Transactional
     public boolean updateExam(Exam exam) {
-        return false;
+        if (examRepository.save(exam) != null)
+            return true;
+        else return false;
     }
 
     @Override
     @Transactional
-    public boolean deleteExamById(Long exam) {
-        return false;
+    public boolean deleteExamById(Long id) {
+        examRepository.delete(id);
+        return true;
     }
 }

@@ -68,7 +68,7 @@ public class UserController {
                                   @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize,
                                   @RequestParam(value = "sort", defaultValue = "id") String sort,
                                   @RequestParam(value = "order", defaultValue = "asc") String order,
-                                  @RequestParam(value = "username",required= false) String username) {
+                                  @RequestParam(value = "username", required = false) String username) {
         System.out.println(username);
         Sort _sort = new Sort(Sort.Direction.fromString(order), sort);
         //传来的页码是从1开始，而服务器从1开始算
@@ -84,7 +84,7 @@ public class UserController {
      */
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public boolean update(@PathVariable("id") Long id, @RequestBody(required = true) Map<String, Object> map) {
+    public boolean update(@PathVariable("id") Long id, @RequestBody Map<String, Object> map) {
         User user = userRepository.findOne(id);
         user.setNickName(map.get("nickName").toString());
         user.setFemale((boolean) map.get("female"));
@@ -110,15 +110,12 @@ public class UserController {
     /**
      * 批量删除用户
      * 前端传来ids 数组
-
+     *
      * @param
      */
     @DeleteMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public void delete(@RequestBody(required = true) Map<String, ArrayList<Long>> map) {
-
+    public void delete(@RequestBody Map<String, ArrayList<Long>> map) {
         map.get("ids").forEach(id -> userService.deleteUserById(id));
-
-
     }
 }

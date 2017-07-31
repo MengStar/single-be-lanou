@@ -53,7 +53,7 @@ public class User {
     private Set<Exam> exams;
 
 
-    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Paper> papers;
 
     public User() {

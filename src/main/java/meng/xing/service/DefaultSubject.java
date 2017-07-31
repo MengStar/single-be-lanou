@@ -14,4 +14,9 @@ public class DefaultSubject implements SubjectService {
     public List<Subject> findAllSubjects() {
         return subjectRepository.findAll();
     }
+
+    @Override
+    public Subject findSubjectByType(String type) {
+        return subjectRepository.findByType(type);
+    }
 }
