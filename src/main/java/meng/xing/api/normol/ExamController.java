@@ -56,18 +56,20 @@ public class ExamController {
         Sort _sort = new Sort(Sort.Direction.fromString(order), sort);
         //传来的页码是从1开始，而服务器从1开始算
         Pageable pageable = new PageRequest(page - 1, pageSize, _sort);
-        return examService.findAllExamsBySubject(subjectObj,pageable);
+        return examService.findAllExamsBySubject(subjectObj, pageable);
     }
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('TEACHER')")
     public boolean update(@PathVariable("id") Long id, @RequestBody Map<String, Object> map) {
+        Exam exam = examService.findExamById(id);
         Subject subject = subjectService.findSubjectByType(map.get("subject").toString());
         String description = map.get("description").toString();
-        Paper paper = paperService.findPaperById(Long.valueOf(map.get("paperId").toString()));
-        Exam exam = examService.findExamById(id);
+        if (map.get("paperId") != null) {
+            Paper paper = paperService.findPaperById(Long.valueOf(map.get("paperId").toString()));
+            exam.setPaper(paper);
+        }
         exam.setDescription(description);
-        exam.setPaper(paper);
         exam.setSubject(subject);
         return examService.updateExam(exam);
     }
@@ -77,7 +79,10 @@ public class ExamController {
     public boolean create(@RequestBody Map<String, Object> map) {
         Subject subject = subjectService.findSubjectByType(map.get("subject").toString());
         String description = map.get("description").toString();
-        Paper paper = paperService.findPaperById(Long.valueOf(map.get("paperId").toString()));
+        Paper paper = null;
+        if (map.get("paperId") != null) {
+            paper = paperService.findPaperById(Long.valueOf(map.get("paperId").toString()));
+        }
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.findUserByUsername(userDetails.getUsername());
         Exam exam = new Exam(description, subject, paper, user);

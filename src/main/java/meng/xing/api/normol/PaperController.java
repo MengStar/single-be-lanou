@@ -38,16 +38,15 @@ public class PaperController {
                                     @RequestParam(value = "sort", defaultValue = "id") String sort,
                                     @RequestParam(value = "order", defaultValue = "asc") String order,
                                     @RequestParam(value = "subject", defaultValue = "") String subject) {
-        Subject subjectObj =null;
-        if(subject !="")
-        {
+        Subject subjectObj = null;
+        if (subject != "") {
             subjectObj = subjectService.findSubjectByType(subject);
         }
 
         Sort _sort = new Sort(Sort.Direction.fromString(order), sort);
         //传来的页码是从1开始，而服务器从1开始算
         Pageable pageable = new PageRequest(page - 1, pageSize, _sort);
-        return paperService.findAllPapersBySubject(subjectObj,pageable);
+        return paperService.findAllPapersBySubject(subjectObj, pageable);
     }
 
     @GetMapping("/{id}")
@@ -64,8 +63,10 @@ public class PaperController {
         Subject subject = subjectService.findSubjectByType(map.get("subject").toString());
         String description = map.get("description").toString();
         Set<TestItem> testItems = new HashSet<>();
-        ArrayList ids = (ArrayList) map.get("testItemIds");
-        ids.forEach(testItemId -> testItems.add(testItemService.findTestItemById(Long.valueOf((int) testItemId))));
+        if (map.get("testItemIds") != null) {
+            ArrayList ids = (ArrayList) map.get("testItemIds");
+            ids.forEach(testItemId -> testItems.add(testItemService.findTestItemById(Long.valueOf((int) testItemId))));
+        }
         Paper paper = paperService.findPaperById(id);
         paper.setDescription(description);
         paper.setSubject(subject);
@@ -79,8 +80,11 @@ public class PaperController {
         Subject subject = subjectService.findSubjectByType(map.get("subject").toString());
         String description = map.get("description").toString();
         Set<TestItem> testItems = new HashSet<>();
-        ArrayList ids = (ArrayList) map.get("testItemIds");
-        ids.forEach(testItemId -> testItems.add(testItemService.findTestItemById(Long.valueOf((int) testItemId))));
+
+        if (map.get("testItemIds") != null) {
+            ArrayList ids = (ArrayList) map.get("testItemIds");
+            ids.forEach(testItemId -> testItems.add(testItemService.findTestItemById(Long.valueOf((int) testItemId))));
+        }
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.findUserByUsername(userDetails.getUsername());
         Paper paper = new Paper(description, subject, user, testItems);
