@@ -62,6 +62,7 @@ public class AuthController {
         userService.setUserRoles(username, UserRoleEnum.ROLE_DEFAULT.toString());
         Map<String, Object> retObj = new HashMap<>();
         retObj.put("token", authService.login(username, password));
+        retObj.put("username",username);
         return retObj;
     }
 

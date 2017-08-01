@@ -35,6 +35,9 @@ public class UserController {
     public Map<String, Object> getUserByPathVariableUsername(@PathVariable("username") String username) {
 
         User _user = userService.findUserByUsername(username);
+        System.out.println("----------------------------------------------------");
+        System.out.println(username);
+        System.out.println(_user);
         Map<String, Object> user = new HashMap<>();
         user.put("id", _user.getId());
         user.put("username", _user.getUsername());

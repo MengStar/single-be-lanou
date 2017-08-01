@@ -7,7 +7,6 @@ import meng.xing.repository.UserRoleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -29,13 +28,10 @@ public class DefaultUser implements UserService {
     UserRoleRepository userRoleRepository;
 
     @Override
-    @Cacheable(value = "UserService", key = "#username") //可以缓存
+//    @Cacheable(value = "UserService", key = "#username") //可以缓存
     public User findUserByUsername(String username) {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            return null;
-        }
-        return user;
+        return userRepository.findByUsername(username);
+
     }
 
     @Override
@@ -73,7 +69,7 @@ public class DefaultUser implements UserService {
     @Override
     @Transactional
     public boolean deleteUserById(Long id) {
-         userRepository.delete(id);
-         return true;
+        userRepository.delete(id);
+        return true;
     }
 }
