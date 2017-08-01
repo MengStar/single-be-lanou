@@ -28,7 +28,6 @@ public class DefaultUser implements UserService {
     UserRoleRepository userRoleRepository;
 
     @Override
-//    @Cacheable(value = "UserService", key = "#username") //可以缓存
     public User findUserByUsername(String username) {
         return userRepository.findByUsername(username);
 
