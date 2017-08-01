@@ -45,10 +45,12 @@ public class AuthController {
     @PostMapping("/register")
     @Transactional
     public Map<String, Object> register(@RequestBody(required = true) Map<String, Object> map) {
+        Map<String, Object> retObj = new HashMap<>();
         String username = map.get("username").toString();
         //用户名存在
         if (userService.findUserByUsername(username) != null) {
-            return null;
+            retObj.put("message", "用户名已经存在");
+            return retObj;
         }
         String password = map.get("password").toString();
         String nickName = map.get("nickName").toString();
@@ -60,9 +62,9 @@ public class AuthController {
         User user = new User(username, password, nickName, phone, email, address, female, age);
         authService.register(user);
         userService.setUserRoles(username, UserRoleEnum.ROLE_DEFAULT.toString());
-        Map<String, Object> retObj = new HashMap<>();
+
         retObj.put("token", authService.login(username, password));
-        retObj.put("username",username);
+        retObj.put("username", username);
         return retObj;
     }
 
