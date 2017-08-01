@@ -38,15 +38,13 @@ public class UserController {
     public Map<String, Object> getUserByPathVariableUsername(@PathVariable("username") String username) {
 
         User _user = userService.findUserByUsername(username);
-        System.out.println("----------------------------------------------------");
-        System.out.println(username);
-        System.out.println(_user);
         Map<String, Object> user = new HashMap<>();
         user.put("id", _user.getId());
         user.put("username", _user.getUsername());
         Map<String, Object> permissions = new HashMap<>();
         permissions.put("roles", _user.getRoles().stream().map(userRole -> userRole.getRole()).collect(Collectors.toList()));
-        permissions.put("visit", "1,2,21,3,4,5");
+        //todo这是控制菜单的路径，有时间移动后台
+        permissions.put("visit", "1,3,4,5");
         user.put("permissions", permissions);
         Map<String, Object> data = new HashMap<>();
         data.put("user", user);
