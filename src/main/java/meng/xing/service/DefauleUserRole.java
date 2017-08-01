@@ -6,15 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import java.util.List;
+
 @Service
 public class DefauleUserRole implements  UserRoleService {
     @Autowired
     UserRoleRepository userRoleRepository;
     @Override
     @Cacheable(value = "AllRoles") //可以缓存
-    public Set<UserRole> findALlRoles() {
-        return (Set<UserRole>) userRoleRepository.findAll();
+    public List<UserRole> findALlRoles() {
+        return userRoleRepository.findAll();
     }
     @Override
     @Cacheable(value = "OneRole") //可以缓存

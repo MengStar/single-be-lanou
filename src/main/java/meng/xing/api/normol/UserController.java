@@ -1,6 +1,8 @@
 package meng.xing.api.normol;
 
 import meng.xing.entity.User;
+import meng.xing.entity.UserRole;
+import meng.xing.service.UserRoleService;
 import meng.xing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,9 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -22,6 +23,8 @@ import java.util.stream.Collectors;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    UserRoleService userRoleService;
 
     /**
      * username获取user信息
@@ -43,7 +46,7 @@ public class UserController {
         user.put("username", _user.getUsername());
         Map<String, Object> permissions = new HashMap<>();
         permissions.put("roles", _user.getRoles().stream().map(userRole -> userRole.getRole()).collect(Collectors.toList()));
-        permissions.put("visit", "1,2,21,7,5,51,2,53");
+        permissions.put("visit", "1,2,21,3,4,5");
         user.put("permissions", permissions);
         Map<String, Object> data = new HashMap<>();
         data.put("user", user);
@@ -84,7 +87,17 @@ public class UserController {
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public boolean update(@PathVariable("id") Long id, @RequestBody Map<String, Object> map) {
+
         User user = userService.findUserById(id);
+
+        ArrayList roles = (ArrayList) map.get("roles");
+        if (roles != null) {
+            Set<UserRole> _roles = new HashSet<>();
+            roles.forEach(
+                    (role) -> _roles.add(userRoleService.findUserRoleByRole((String) role)));
+            user.setRoles(_roles);
+        }
+
         user.setNickName(map.get("nickName").toString());
         user.setFemale((boolean) map.get("female"));
         user.setAge((int) map.get("age"));

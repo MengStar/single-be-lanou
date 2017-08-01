@@ -54,7 +54,7 @@ public class DefaultUser implements UserService {
         User user = userRepository.findByUsername(username);
         logger.info(_roles.toString());
         user.setRoles(_roles);
-        return userRepository.saveAndFlush(user) != null;
+        return userRepository.save(user) != null;
     }
 
     @Override

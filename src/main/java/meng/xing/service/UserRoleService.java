@@ -2,9 +2,9 @@ package meng.xing.service;
 
 import meng.xing.entity.UserRole;
 
-import java.util.Set;
+import java.util.List;
 
 public interface UserRoleService {
-    Set<UserRole> findALlRoles();
+    List<UserRole> findALlRoles();
     UserRole findUserRoleByRole(String role);
 }
