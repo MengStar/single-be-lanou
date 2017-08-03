@@ -12,28 +12,25 @@ public class Answer {
     @NotNull
     private String answer;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "paper_id")
-    private Paper paper;
+    private Long userId;
+    private long examId;
 
-    @ManyToOne
-    @JoinColumn(name = "test_item_id")
-    private TestItem testItem;
+    private Long paperId;
+
+
+    private Long testItemId;
 
     protected Answer() {
     }
-    public Answer(User user, Paper paper, TestItem testItem, String answer) {
-        this.user = user;
-        this.paper = paper;
-        this.testItem = testItem;
+
+    public Answer(String answer, Long userId, long examId, Long paperId, Long testItemId) {
         this.answer = answer;
+        this.userId = userId;
+        this.examId = examId;
+        this.paperId = paperId;
+        this.testItemId = testItemId;
     }
-
-
 
     public Long getId() {
         return id;
@@ -43,35 +40,43 @@ public class Answer {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Paper getPaper() {
-        return paper;
-    }
-
-    public void setPaper(Paper paper) {
-        this.paper = paper;
-    }
-
-    public TestItem getTestItem() {
-        return testItem;
-    }
-
-    public void setTestItem(TestItem testItem) {
-        this.testItem = testItem;
-    }
-
     public String getAnswer() {
         return answer;
     }
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public long getExamId() {
+        return examId;
+    }
+
+    public void setExamId(long examId) {
+        this.examId = examId;
+    }
+
+    public Long getPaperId() {
+        return paperId;
+    }
+
+    public void setPaperId(Long paperId) {
+        this.paperId = paperId;
+    }
+
+    public Long getTestItemId() {
+        return testItemId;
+    }
+
+    public void setTestItemId(Long testItemId) {
+        this.testItemId = testItemId;
     }
 }
