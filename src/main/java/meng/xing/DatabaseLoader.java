@@ -174,9 +174,15 @@ public class DatabaseLoader implements CommandLineRunner {
     }
 
     private void initExam() {
-        Subject subject = subjectRepository.findByType("JAVA");
+        Subject java = subjectRepository.findByType("JAVA");
+        Subject scala = subjectRepository.findByType("Scala");
         User user = userService.findUserByUsername("admin");
         Paper paper = paperRepository.findOne((long) 1);
-        examRepository.save(new Exam("这是一场很难的考试", subject, paper, user));
+        for (int i = 0; i < 40; i++) {
+            examRepository.save(new Exam("这是一场测试考试" + i, java, paper, user));
+        }
+        for (int i = 0; i < 30; i++) {
+            examRepository.save(new Exam("这是一场测试考试" + i, scala, paper, user));
+        }
     }
 }

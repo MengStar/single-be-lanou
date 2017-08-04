@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class DefaultExam implements ExamService {
     @Autowired
@@ -20,6 +22,11 @@ public class DefaultExam implements ExamService {
         if (subject == null)
             return examRepository.findAll(pageable);
         return examRepository.findBySubject(subject,pageable);
+    }
+
+    @Override
+    public List<Exam> findNoPageExamsBySubject(Subject subject,Pageable pageable) {
+        return examRepository.findAllBySubject(subject,pageable);
     }
 
     @Override
