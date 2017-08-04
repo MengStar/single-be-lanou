@@ -69,12 +69,8 @@ public class StartController {
          * 如果这份答案存在，那么拼接处合适的试卷返回
          */
         if (userDoneExamService.isExist(user, exam)) {
-            Paper paper = exam.getPaper();
-            //调用一下使得懒加载会加载相关数据
-            paper.getTestItems().isEmpty();
             List<Answer> answerList = startService.findAnswersByExamIdAndUserID(exam.getId(), user.getId());
             Map<String, Object> data = new HashMap<>();
-            data.put("paper", paper);
             data.put("answers", answerList);
             return data;
         }
