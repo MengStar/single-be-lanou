@@ -1,5 +1,6 @@
 package meng.xing.api.normol;
 
+import meng.xing.api.normol.utils.ReturnStatusFactory;
 import meng.xing.entity.*;
 import meng.xing.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class StartController {
     }
 
     @PostMapping("/complete")
-    public void complete(@RequestBody Map<String, Object> map) {
+    public Map complete(@RequestBody Map<String, Object> map) {
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.findUserByUsername(userDetails.getUsername());
@@ -56,8 +57,10 @@ public class StartController {
                 String answer = answers.get(key);
                 startService.complete(new Answer(answer, uId, eId, pId, testItemId));
             }
+            return ReturnStatusFactory.create(true,"试卷提交成功");
         }
 
+        return ReturnStatusFactory.create(false,"你已经完成过该试卷，不能再提交");
     }
 
     @GetMapping("/{examId}")
