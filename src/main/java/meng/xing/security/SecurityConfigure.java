@@ -14,10 +14,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- *Security的全部配置
+ * Security的全部配置
  */
 @EnableWebSecurity
-@ EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
 public class SecurityConfigure extends WebSecurityConfigurerAdapter {
     @Autowired
@@ -41,6 +41,8 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js"
                 ).permitAll()
+                //解决跨域响应OPTIONS请求问题
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // 对于获取token的rest api要允许匿名访问
                 .antMatchers("/auth/**").permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
@@ -62,6 +64,7 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
                 // 使用BCrypt进行密码的hash
                 .passwordEncoder(PasswordEncoderUtil.getPasswordEncoder());
     }
+
     @Bean
     public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
         return new JwtAuthenticationTokenFilter();
