@@ -10,7 +10,7 @@
 - 支持[cros](http://www.ruanyifeng.com/blog/2016/04/cors.html)跨域访问
 - 支持[docker](https://baike.baidu.com/item/Docker/13344470?fr=aladdin)容器部署
 
-##环境
+## 环境
 
 * java8
 * maven
@@ -22,7 +22,7 @@
 ```
 - 使用IntelliJ IDEA 配置Maven [参考](http://blog.csdn.net/qq_32588349/article/details/51461182)
 
-##运行
+## 运行
 
 - springboot自带tomcat容器，故和普通jar程序运行方式一样
 
@@ -32,7 +32,7 @@
 
 - 运行成功后，访问[http://localhost:8080/api/v1](http://localhost:8080/api/v1),可以看到``hello world!``
 
-##注意
+## 注意
 
 - `src/java/meng/xing/api` 类下的为controller
 - `auth` 下为用户登录、注册接口，不需要权限
