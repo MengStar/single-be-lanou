@@ -22,11 +22,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="end-font" />
+        <module name="BMS-BE" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="end-font" target="1.8" />
+      <module name="BMS-BE" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

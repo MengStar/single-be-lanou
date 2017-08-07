@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/BMS.iml" filepath="$PROJECT_DIR$/.idea/BMS.iml" />
-      <module fileurl="file://$PROJECT_DIR$/end-font/end-font.iml" filepath="$PROJECT_DIR$/end-font/end-font.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BMS-BE.iml" filepath="$PROJECT_DIR$/BMS-BE.iml" />
     </modules>
   </component>
 </project>
