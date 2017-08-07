@@ -28,3 +28,4 @@ nbdist/
 *.iml
 out
 gen
+/.idea/
